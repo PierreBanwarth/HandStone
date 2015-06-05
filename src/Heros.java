@@ -66,7 +66,15 @@ public class Heros {
 	public String getNomHero(int i){
 		Hero h = HeroTab.get(i);
 		return h.getNom();
-
+    }
+	public int getNumHero(String s){
+		int res = 0;
+		for(int j = 0;j<9;j++){
+			if(s.compareTo(HeroTab.get(j).getNom())==0){
+				res = j;
+			}
+		}
+		return res;
     }
 	
 	

@@ -79,14 +79,21 @@ public class CarteScore {
 		//s = null;
 		List<String> cles = new ArrayList<String>(carteClasse.keySet());
 		Collections.sort(cles, new CarteComparator(carteClasse));
-		
+		Carte c;
 		for(String id : cles){
-			s +=  carteClasse.get(id).toString();
+			c = carteClasse.get(id);
+			if(c.getW()+c.getL()>50){
+				s +=  c.toString();
+			}
 		}
 		cles = new ArrayList<String>(carteMatchup.keySet());
 		Collections.sort(cles, new CarteComparator(carteMatchup));
 		for(String id : cles){
-			s +=  carteMatchup.get(id).toString2();
+			int i = herotab.getNumHero(carteMatchup.get(id).getNomA());
+			c = carteMatchup.get(id);
+			if(c.getLMatchup(i) + c.getWMatchup(i)>25){
+			s += c.toString2(i);
+			}
 		}
 	    	
 		s += "</tbody>";
@@ -107,37 +114,29 @@ public class CarteScore {
 	public void adbis(Carte carte ) {
 		adCarteMatchup(carte);
 		adCarteClasse(carte);
-		
 	}
+	
 	public void adCarteMatchup(Carte c){
 		{
-			String s = c.getNomC() +" "+ c.getNomJ() +" "+c.getNomA();
-			boolean trouve = false;
+		String s = c.getNomC() +" "+ c.getNomJ() +" "+c.getNomA();
 				if(carteMatchup.containsKey(s)){
 					Carte cartetest = carteMatchup.get(s);	
-					cartetest.setL(cartetest.getL()+c.getL());
-					cartetest.setW(cartetest.getW()+c.getW());
-					carteMatchup.remove(s);
-					carteMatchup.put(s,c);
-					trouve= true;
-					
-				}else if(!trouve){
+					cartetest.setLMatchup(cartetest.getLMatchup(herotab.getNumHero(cartetest.getNomA()))+c.getL(),herotab.getNumHero(cartetest.getNomA()));
+					cartetest.setWMatchup(cartetest.getWMatchup(herotab.getNumHero(cartetest.getNomA()))+c.getW(),herotab.getNumHero(cartetest.getNomA()));
+				}else{
+					c.setLMatchup(c.getL(),herotab.getNumHero(c.getNomA()));
+					c.setWMatchup(c.getW(),herotab.getNumHero(c.getNomA()));
 					carteMatchup.put(s,c);
 				}
 			}
 	}
 	public void adCarteClasse(Carte c){
 		String s = c.getNomC() +" "+ c.getNomJ();
-		boolean trouve = false;
 			if(carteClasse.containsKey(s)){
 				Carte cartetest = carteClasse.get(s);	
 				cartetest.setL(cartetest.getL()+c.getL());
 				cartetest.setW(cartetest.getW()+c.getW());
-				carteClasse.remove(s);
-				carteClasse.put(s,c);
-				trouve= true;
-				
-			}else if(!trouve){
+			}else{
 				carteClasse.put(s,c);
 			}
 		}
