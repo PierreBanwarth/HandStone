@@ -24,6 +24,7 @@ public class Carte {
 		}
 	}
 	public String getNomJ(){return nomjoueur;}
+	
 	public String convertNomJ(){
 		switch (getNomJ()) {
         case "Valeera Sanguinar":

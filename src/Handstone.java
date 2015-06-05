@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Handstone {
-
 	private static final String zipPath = "C:\\Users\\pierre\\Desktop\\TEST";
 	private static final String finalPath = "C:\\Users\\pierre\\Desktop\\TEST\\output_log.txt";
 	static File folder = new File(zipPath);
@@ -40,7 +39,7 @@ public class Handstone {
 			g = gamelist.get(i);
 			for(int j = 0; j < g.mainDepart.size();j++){
 				carte = new Carte(g.mainDepart.get(j),g.getHeroJoueur(),g.getHeroAdverse(),g.getWin());
-				Herotab.majRatio(g.getHeroJoueur() , g.getWin());
+				Herotab.Majratio(g.getHeroJoueur(), g.getWin());
 				scores.adbis(carte);
 			}
 			
