@@ -85,13 +85,30 @@ public class Carte implements Comparable<Carte> {
 @Override public String toString() {
 	if(getratio()>=0){
 			
-		   String s ="<th>";
-		   s+=/*"<td align=center>"+*/getNomC()+"</td>"+System.getProperty("line.separator");
-		   s+=/*"<td align=center>"+*/convertNomJ()+"</td>"+System.getProperty("line.separator");
-		   s+=/*"<td align=center>"+*/convertNomA()+"</td>"+System.getProperty("line.separator");
-		   s+=/*"<td align=center>"+*/this.getW()+"|"+this.getL()+"</td>"+System.getProperty("line.separator");
-		   s+=/*"<td align=center>"+*/String.format("%.2f", getratio()) +"%"+"</td>"+System.getProperty("line.separator");
-		   /*s+= "</th>";*/
+		   String s ="<tr>";
+		   s+="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+convertNomJ()+"</td>"+System.getProperty("line.separator");
+		  // s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+this.getW()+"|"+this.getL()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+String.format("%.2f", getratio()) +"%"+"</td>"+System.getProperty("line.separator");
+		   s+= "</tr>";
+		   return s;
+	}
+	else{
+		return "problem : nb win"+getW()+"nb lose"+getL()+System.getProperty("line.separator");
+	}
+	}
+public String toString2() {
+	if(getratio()>=0){
+			
+		   String s ="<tr>";
+		   s+="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+convertNomJ()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
+		  // s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+this.getW()+"|"+this.getL()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+String.format("%.2f", getratio()) +"%"+"</td>"+System.getProperty("line.separator");
+		   s+= "</tr>";
 		   return s;
 	}
 	else{
@@ -101,16 +118,17 @@ public class Carte implements Comparable<Carte> {
 @Override
 public int compareTo(Carte arg0) {
 	int compJoueur = this.getNomJ().compareTo(arg0.getNomJ());
+	int compCarte = this.getNomC().compareTo(arg0.getNomC());
 	boolean compRatio =  getratio() > arg0.getratio();
 	if(compJoueur == 0){
 		if(compRatio){
-			return 1;
+			return compCarte;
 		}
 		else{
-			return -1;
+			return compCarte;
 		}
 	}
-	return -1;
+	return compJoueur;
 		
 	}
 	

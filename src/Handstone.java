@@ -122,11 +122,13 @@ public class Handstone {
 }
 	
 	public static String normalize(String string){
+		if(string.endsWith(" id")){
+			return string.substring(0,string.length()-3);
+		}
 		if(string.endsWith(" i")){
 			return string.substring(0,string.length()-2);
 		}
 		if(string.endsWith(" ")){
-			
 			return string.substring(0,string.length()-1);	
 		}
 		else return string;
