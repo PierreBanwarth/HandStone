@@ -105,31 +105,8 @@ public class CarteScore {
 	}
 
 	public void adbis(Carte carte ) {
-		boolean memeA;
-		boolean memeJ;
-		boolean memenom;
-		boolean trouvé = false;
-		int i = 0;
 		adCarteMatchup(carte);
 		adCarteClasse(carte);
-		while(i<cartesMatchup.size() && trouvé == false){
-				trouvé = false;
-				memenom = cartesMatchup.get(i).getNomC().compareTo(carte.getNomC())==0;
-				memeJ = cartesMatchup.get(i).getNomJ().compareTo(carte.getNomJ())==0;
-				memeA = cartesMatchup.get(i).getNomA().compareTo(carte.getNomA())==0;
-				
-			if(memenom && memeJ && memeA){
-				carte.setW(carte.getW()+cartesMatchup.get(i).getW());
-				carte.setL(carte.getL()+cartesMatchup.get(i).getL());
-				cartesMatchup.remove(i);
-				cartesMatchup.add(carte);
-				trouvé = true;
-			}
-		i++;
-		}
-		if(!trouvé){
-			cartesMatchup.add(carte);
-		}
 		
 	}
 	public void adCarteMatchup(Carte c){
