@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class CarteScore {
 	List<Carte> cartesMatchup = new ArrayList<Carte>();
-	Map<String , Carte> carteClasse =  new HashMap<String, Carte>() ;
+	Set<Carte> sorted = new TreeSet<Carte>();
+	Map<String , Carte> carteClasse =  new HashMap<String, Carte>();
 	Heros herotab = new Heros();
 	
 	int nbcarteidentique = 0;
@@ -75,8 +79,12 @@ public class CarteScore {
 		s += "</BODY></HTML>";
 		s = null;
 		for (Map.Entry<String, Carte> entry : carteClasse.entrySet()) {
-			  s+= entry.getValue() ;
-			}
+			  sorted.add(entry.getValue()) ;
+		}
+		Iterator i=sorted.iterator();
+	    while(i.hasNext()){
+	        System.out.println(i.next());
+	    }      
 		return s;
 	}
 	public double getIntervalle(float winrate, int nbgame){
@@ -99,24 +107,23 @@ public class CarteScore {
 		int i = 0;
 		while(i<cartesMatchup.size() && trouvé == false){
 				trouvé = false;
+				trouve2 = false;
+				
 				memenom = cartesMatchup.get(i).getNomC().compareTo(carte.getNomC())==0;
 				memeJ = cartesMatchup.get(i).getNomJ().compareTo(carte.getNomJ())==0;
 				memeA = cartesMatchup.get(i).getNomA().compareTo(carte.getNomA())==0;
-			
+				
 			if(memenom && memeJ && memeA){
 				carte.setW(carte.getW()+cartesMatchup.get(i).getW());
 				carte.setL(carte.getL()+cartesMatchup.get(i).getL());
 				cartesMatchup.remove(i);
 				cartesMatchup.add(carte);
 				trouvé = true;
-			}
-			if(memenom && memeJ){
-				carte.setW(carte.getW()+cartesMatchup.get(i).getW());
-				carte.setL(carte.getL()+cartesMatchup.get(i).getL());
-				cartetest = carteClasse.get(carte.getNomC());
-				if(cartetest != null){
-					carte.setW(cartetest.getW()+cartesMatchup.get(i).getW());
-					carte.setL(cartetest.getL()+cartesMatchup.get(i).getL());
+			}if(memenom && memeJ){
+				if(!carteClasse.containsKey(carte.getNomC())){
+					cartetest = carteClasse.get(carte.getNomC());
+					carte.setW(cartetest.getW()+1);
+					carte.setL(cartetest.getL()+1);
 					carteClasse.remove(cartetest);
 					carteClasse.put(carte.getNomC(),carte);
 					trouve2 = true;

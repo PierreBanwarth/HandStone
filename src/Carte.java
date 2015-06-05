@@ -1,5 +1,5 @@
 
-public class Carte {
+public class Carte implements Comparable<Carte> {
 	// name of the card
 	public String nom;
 	// name of the player hero
@@ -86,17 +86,32 @@ public class Carte {
 	if(getratio()>=0){
 			
 		   String s ="<th>";
-				   s+="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+convertNomJ()+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+ (int)(this.getW()+this.getL())+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+String.format("%.2f", getratio()) +"%"+"</td>"+System.getProperty("line.separator");
-		   s+= "</th>";
+		   s+=/*"<td align=center>"+*/getNomC()+"</td>"+System.getProperty("line.separator");
+		   s+=/*"<td align=center>"+*/convertNomJ()+"</td>"+System.getProperty("line.separator");
+		   s+=/*"<td align=center>"+*/convertNomA()+"</td>"+System.getProperty("line.separator");
+		   s+=/*"<td align=center>"+*/this.getW()+"|"+this.getL()+"</td>"+System.getProperty("line.separator");
+		   s+=/*"<td align=center>"+*/String.format("%.2f", getratio()) +"%"+"</td>"+System.getProperty("line.separator");
+		   /*s+= "</th>";*/
 		   return s;
 	}
 	else{
 		return "problem : nb win"+getW()+"nb lose"+getL()+System.getProperty("line.separator");
 	}
+	}
+@Override
+public int compareTo(Carte arg0) {
+	int compJoueur = this.getNomJ().compareTo(arg0.getNomJ());
+	boolean compRatio =  getratio() > arg0.getratio();
+	if(compJoueur == 0){
+		if(compRatio){
+			return 1;
+		}
+		else{
+			return -1;
+		}
+	}
+	return -1;
+		
 	}
 	
 }
