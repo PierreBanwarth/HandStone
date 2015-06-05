@@ -9,21 +9,13 @@ public class game {
 	List<String> cartesjetées = new  ArrayList<String>();
 	List<String> mainDepart = new  ArrayList<String>(); 
 	CarteScore carteScore;
-	private boolean arena = false;
-	private boolean win = false;
-	private String playerName;
-	
+	private Boolean win = false;
 	private String heroJoueur;
 	private  String heroAdverse;
-	private String PlayerClasse;
-	private String OpponentClasse;
 	private int nbcartesdepart = 3;
-	private Heros Herotab;
 	
-	public game(String name, Heros Herotab, String playerName){
+	public game(String name){
 		nomjoueur = name;
-		this.setHerotab(Herotab);	
-		this.playerName = playerName;
 	}
 	public void addCartes(String s){
 		if(s.endsWith(" i")){
@@ -46,7 +38,6 @@ public class game {
 	}
 	// quand on sais la win on ajoute toute les cartes dans la main de depart dans carte score
 	public void setWin(boolean b){
-
 		win = b;
 	}
 	public boolean getWin(){
@@ -96,36 +87,6 @@ public class game {
 			return string.substring(0,string.length()-1);	
 		}
 		else return string;
-	}
-	public boolean isArena() {
-		return arena;
-	}
-	public void setArena(boolean arena) {
-		this.arena = arena;
-	}
-	public Heros getHerotab() {
-		return Herotab;
-	}
-	public void setHerotab(Heros herotab) {
-		Herotab = herotab;
-	}
-	public String getPseudoJoueur() {
-		return playerName;
-	}
-	public void setPseudoJoueur(String pseudoJoueur) {
-		playerName = pseudoJoueur;
-	}
-	public String getPlayerClasse() {
-		return PlayerClasse;
-	}
-	public void setPlayerClasse(String joueurClasse) {
-		PlayerClasse = joueurClasse;
-	}
-	public String getOpponentClasse() {
-		return OpponentClasse;
-	}
-	public void setOpponentClasse(String opponentClasse) {
-		OpponentClasse = opponentClasse;
 	}
 }
 
