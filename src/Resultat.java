@@ -195,9 +195,9 @@ public class Resultat {
 	public void setNbcarteMatchup(int nbcarteMatchup) {
 		this.nbcarteMatchup = nbcarteMatchup;
 	}
-	public float getRatioMatchup(int i, int j){
+	/*public float getRatioMatchup(int i, int j){
 		return this.Herotab.getRatio(i, j);
-	}
+	}*/
 	public float getDeltaratioHeroCarteMatchup() {
 		return deltaratioHeroCarteMatchup;
 	}

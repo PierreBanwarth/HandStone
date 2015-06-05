@@ -84,12 +84,14 @@ public class Carte {
 @Override public String toString() {
 	if(getratio()>=0){
 			
-		   String s ="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
+		   String s ="<th>";
+				   s+="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+convertNomJ()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+ (int)(this.getW()+this.getL())+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+String.format("%.2f", getratio()) +"%"+"</td>"+System.getProperty("line.separator");
-			return s;
+		   s+= "</th>";
+		   return s;
 	}
 	else{
 		return "problem : nb win"+getW()+"nb lose"+getL()+System.getProperty("line.separator");

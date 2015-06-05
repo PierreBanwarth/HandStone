@@ -1,12 +1,12 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CarteScore {
 	List<Carte> cartesMatchup = new ArrayList<Carte>();
-	
-	List<Carte> carteMatchupPioche = new ArrayList<Carte>();
+	Map<String , Carte> carteClasse =  new HashMap<String, Carte>() ;
 	Heros herotab = new Heros();
-	Heros herotabpiochhe = new Heros();
 	
 	int nbcarteidentique = 0;
 	int nbgameMuligan;
@@ -43,7 +43,7 @@ public class CarteScore {
 			 s +="<!-- Table Body --><tbody>";
 			for(int i =0;i<cartesMatchup.size();i++){
 				nbgameMuligan = cartesMatchup.get(i).getW()+cartesMatchup.get(i).getL();
-				if(cartesMatchup.get(i).getNomJ().compareTo(herotab.getNomHero(hero))==0 && nbgameMuligan > 10)
+				if(cartesMatchup.get(i).getNomJ().compareTo(herotab.getNomHero(hero))==0 && nbgameMuligan >0)
 				{
 					   s+= "<tr>";
 					   s+= cartesMatchup.get(i).toString();
@@ -62,26 +62,6 @@ public class CarteScore {
 					   deltaplus = deltaratio + (float) getIntervalle((float)(ratioMuligan/100.0),nbgameMuligan) + (float) getIntervalle((float)(ratioMatchup/100.0),nbgameMatchup); 
 					   
 					   s+="<td align=center>["+ String.format("%.2f",deltamoin)+";"+  String.format("%.2f",deltaplus)+"]</td>"+System.getProperty("line.separator");
-					   /*
-					   for(int j = 0; j<carteMatchupPioche.size();j++){
-						   if(carteMatchupPioche.get(j).getNomC().compareTo(carteMatchupPioche.get(i).getNomC())==0 &&  carteMatchupPioche.get(j).getNomJ().compareTo(carteMatchupPioche.get(i).getNomJ())==0){
-							   
-							   nbWinTot = (carteMatchupPioche.get(j).getW());
-							   nbgameTot = (carteMatchupPioche.get(j).getW() + carteMatchupPioche.get(j).getL());
-							   ratiopioche =calculratiopourcent(nbWinTot,nbgameTot) - ratioMatchup;
-							   if(ratiopioche>0){
-								   s+= "<td><font size=\"2\" color=\"green\">"+ratiopioche+"</font></td>"+System.getProperty("line.separator");
-							   }else{
-								   s+= "<td><font size=\"2\" color=\"red\">"+ratiopioche+"</font></td>"+System.getProperty("line.separator");
-							   }
-							   s+="<td>"+nbWinTot+"</td>"+System.getProperty("line.separator");
-							   s+="<td>"+nbgameTot+"</td>"+System.getProperty("line.separator");
-							   s+="<td>"+carteMatchupPioche.get(j).getW()+"</td>"+System.getProperty("line.separator");
-							   s+="<td>"+carteMatchupPioche.get(j).getL()+"</td>"+System.getProperty("line.separator");
-							   s+="<td>"+cartesMatchup.get(i).getW()+"</td>"+System.getProperty("line.separator");
-							   s+="<td>"+cartesMatchup.get(i).getL()+"</td>"+System.getProperty("line.separator");
-						   }
-					   }*/	
 					   s+= "</tr>";
 				}
 				
@@ -93,7 +73,10 @@ public class CarteScore {
 		s += "</tbody>";
 		s += "</table>";
 		s += "</BODY></HTML>";
-		
+		s = null;
+		for (Map.Entry<String, Carte> entry : carteClasse.entrySet()) {
+			  s+= entry.getValue() ;
+			}
 		return s;
 	}
 	public double getIntervalle(float winrate, int nbgame){
@@ -106,19 +89,20 @@ public class CarteScore {
 		return (float)(win / ((float)win+(float)loose));
 	}
 
-	public void adbis(Carte carte ,List<Carte> cartesMatchup) {
+	public void adbis(Carte carte ) {
 		boolean memeA;
 		boolean memeJ;
 		boolean memenom;
 		boolean trouvé = false;
-		
+		boolean trouve2 = false;
+		Carte cartetest;
 		int i = 0;
 		while(i<cartesMatchup.size() && trouvé == false){
 				trouvé = false;
 				memenom = cartesMatchup.get(i).getNomC().compareTo(carte.getNomC())==0;
 				memeJ = cartesMatchup.get(i).getNomJ().compareTo(carte.getNomJ())==0;
 				memeA = cartesMatchup.get(i).getNomA().compareTo(carte.getNomA())==0;
-				
+			
 			if(memenom && memeJ && memeA){
 				carte.setW(carte.getW()+cartesMatchup.get(i).getW());
 				carte.setL(carte.getL()+cartesMatchup.get(i).getL());
@@ -126,10 +110,25 @@ public class CarteScore {
 				cartesMatchup.add(carte);
 				trouvé = true;
 			}
+			if(memenom && memeJ){
+				carte.setW(carte.getW()+cartesMatchup.get(i).getW());
+				carte.setL(carte.getL()+cartesMatchup.get(i).getL());
+				cartetest = carteClasse.get(carte.getNomC());
+				if(cartetest != null){
+					carte.setW(cartetest.getW()+cartesMatchup.get(i).getW());
+					carte.setL(cartetest.getL()+cartesMatchup.get(i).getL());
+					carteClasse.remove(cartetest);
+					carteClasse.put(carte.getNomC(),carte);
+					trouve2 = true;
+				}
+			}
 		i++;
 		}
 		if(!trouvé){
 			cartesMatchup.add(carte);
+		}
+		if(!trouve2){
+			carteClasse.put(carte.getNomC(),carte);
 		}
 	}
 	public String convertNomJ(String s){
@@ -157,10 +156,6 @@ public class CarteScore {
 	return "";
 	}
 
-	public void setHerotabPioche(Heros herotab2) {
-		// TODO Auto-generated method stub
-		this.herotabpiochhe = herotab2;
-	}
 	public void setHerotab(Heros h){
 		this.herotab = h;
 	}

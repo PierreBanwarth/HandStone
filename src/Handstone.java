@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Handstone {
 
-	private static final String zipPath = "C:\\Users\\pierre\\Desktop\\data HS bordel";
-	private static final String finalPath = "C:\\Users\\pierre\\Desktop\\data HS bordel\\output_log.txt";
+	private static final String zipPath = "C:\\Users\\pierre\\Desktop\\TEST";
+	private static final String finalPath = "C:\\Users\\pierre\\Desktop\\TEST\\output_log.txt";
 	static File folder = new File(zipPath);
 	static File[] listOfFiles = folder.listFiles();
 	static Carte carte;
@@ -41,7 +41,7 @@ public class Handstone {
 			for(int j = 0; j < g.mainDepart.size();j++){
 				carte = new Carte(g.mainDepart.get(j),g.getHeroJoueur(),g.getHeroAdverse(),g.getWin());
 				Herotab.majRatio(g.getHeroJoueur() , g.getWin());
-				scores.adbis(carte,scores.cartesMatchup);
+				scores.adbis(carte);
 			}
 			
 			/*for(int k = 0; k < g.cartes.size();k++){
@@ -51,8 +51,6 @@ public class Handstone {
 			}*/
 		}
 		scores.setHerotab(Herotab);
-		scores.setHerotabPioche(Herotabpioche);
-		
 		System.out.println(scores);
 	}
 
