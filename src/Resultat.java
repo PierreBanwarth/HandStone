@@ -81,11 +81,10 @@ public class Resultat {
 		}
 	return s;
 	}
-	public String resClasseHtml(){
+	public String resClasseHtml(int J){
 		String s = null;
-		for(int classe = 0;classe<9;classe++){
-			s += html.TableauClasse(this,classe);
-		}
+			s += html.TableauClasse(this,J);
+		
 	return s;
 	}
 	public String resClasseCarteMatchupHtml(Resultat res,int i, int j){

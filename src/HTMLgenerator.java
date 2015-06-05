@@ -1,3 +1,5 @@
+import java.util.List;
+
 
 public class HTMLgenerator {
 	public String enteteHtml(){
@@ -149,12 +151,12 @@ public class HTMLgenerator {
 		
 		 Heros herotab = res.getHeroTab();
 	     CarteScore cartescore = res.getCarteScore();
-		 for(int i =0;i<cartescore.size();i++){
-			 res.setUpVariables(i);
-			if(cartescore.getMatchup(i).getNomJ().compareTo(herotab.transition(hero))==0 && res.getnbgameCarte() > 10)
+	     List<Carte> classe = cartescore.listSelect(hero);
+		 for(int i =0;i<classe.size();i++){
 			{
+				if(classe.get(i).getL() + classe.get(i).getW() >20)
 				   s +="<tr>";
-				   s += "<td> "+cartescore.getMatchup(i).getNomC()+ "</td>";
+				   s += "<td> "+classe.get(i).getNomC()+ "</td>";
 				   s += "<td> "+herotab.getClasseName(hero)+" </td>";
 					 s += "<td> "+res.getnbgameCarte()+" </td>";
 					 s += "<td>"+ res.getRatioCarte()+ "</td>";

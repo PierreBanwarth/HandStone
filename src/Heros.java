@@ -11,6 +11,7 @@ public class Heros {
 	// Matchup Win RATE
 	public static int persoMatchupWin[][] = new int[9][9];
 	public static int persoMatchupLose[][] = new int[9][9];
+	
 	public Heros(){
 		for(int i = 0;i<9;i++){
 			persoMatchupWin[i] = new int[9];

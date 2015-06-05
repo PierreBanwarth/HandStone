@@ -55,8 +55,10 @@ public class Handstone {
 			for(int j = 0; j < g.mainDepart.size();j++){
 				if(g.getHeroJoueur() != null && g.getHeroAdverse() != null ){
 				int player = Herotab.transition(g.getHeroJoueur());
+				
 				int opponent = Herotab.transition(g.getHeroAdverse());
 				carte = new Carte(g.mainDepart.get(j),g.getHeroJoueur(),g.getHeroAdverse(),g.getWin(),Herotab.getClasseName(player),Herotab.getClasseName(opponent));
+				scores.adClasse(carte,player);
 				scores.adbis(carte,scores.cartesMatchup);
 				}
 			}
@@ -72,7 +74,7 @@ public class Handstone {
 		ecrire(resPath+"MatchupTab.html",res.Tableaumatchup());
 		
 		for(int classeJ =0;classeJ<9;classeJ++){
-			String Classe = res.resClasseHtml();
+			String Classe = res.resClasseHtml(classeJ);
 			ecrire(resPathClasse+Herotab.getClasseName(classeJ)+".html",Classe);
 			for(int classeP =0;classeP<9;classeP++){
 				String s = res.resClasseCarteMatchupHtml(res,classeJ,classeP);
