@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class Heros {
 	public static List<Hero> HeroTab = new  ArrayList<Hero>();
 	public static int persoWin[] = new int[9];
@@ -30,21 +27,25 @@ public class Heros {
 	    	persoWin[heroname]++;
 	    	persoWinMatchup[heroname][opponentName]++;
 	    }else{
-	    	persoWin[heroname]++;
-	    	persoWinMatchup[heroname][opponentName]++;
+	    	persoLose[heroname]++;
+	    	persoLoseMatchup[heroname][opponentName]++;
 	    }
 	}
+
+	public float getRatioMatchup(int heroname, int opponentName){
+
+	    return ((float)	persoWinMatchup[heroname][opponentName] / ((float)	persoWinMatchup[heroname][opponentName] + (float)persoLoseMatchup[heroname][opponentName]))*100;
+	    
+	}
+	public float getRatioMatchup(String heroname ,String opponentName){
+		 int Player  = getNumHero(heroname);
+		 int Opponent =  getNumHero(opponentName);
+		return getRatioMatchup(Player, Opponent);
+	}
 	public float getRatio(String heroname){
-		String nomPerso;
-	    Hero h;
-		for(int i = 0;i<9;i++){
-	    	 h  = HeroTab.get(i);
-			 nomPerso = h.getNom();
-	    	 if(nomPerso.compareTo(heroname)==0){
-	    		 return ((float)h.getWin() / ((float)h.getWin() + (float)h.getLose()))*100;
-	    	 }
-	     }
-		return 0;
+		
+	    Hero h  = HeroTab.get(getNumHero(heroname));
+	    return ((float)h.getWin() / ((float)h.getWin() + (float)h.getLose()))*100;
 	}
 	public float getRatio(int heronum){
 		
@@ -56,6 +57,17 @@ public class Heros {
 		Hero h = HeroTab.get(i);
 		return h.getNom();
     }
+	
+	public String getClasseHero(String s){
+		 Hero h  = HeroTab.get(getNumHero(s));
+		 return h.getClasse();
+		
+    }
+	public int getNbgame(String heroname){
+		Hero h  = HeroTab.get(getNumHero(heroname));
+		return h.getWin() + h.getLose();
+	   
+	}
 	public int getNumHero(String s){
 		int res = 0;
 		for(int j = 0;j<9;j++){
@@ -65,29 +77,6 @@ public class Heros {
 		}
 		return res;
     }
-	public String getClasseHero(String s){
-		String res =null;
-		for(int j = 0;j<9;j++){
-			if(s.compareTo(HeroTab.get(j).getNom())==0){
-				res = HeroTab.get(j).getClasse();
-			}
-		}
-		return res;
-    }
-	
-	
-	public int getNbgame(String heroname){
-		String nomPerso;
-	    Hero h;
-		for(int i = 0;i<9;i++){
-	    	 h  = HeroTab.get(i);
-			 nomPerso = h.getNom();
-	    	 if(nomPerso.compareTo(heroname)==0){
-	    		 return h.getWin() + h.getLose();
-	    	 }
-	     }
-		return 0;
-	}
 
 
 }

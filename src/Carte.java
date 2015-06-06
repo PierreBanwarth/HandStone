@@ -12,10 +12,9 @@ public class Carte implements Comparable<Carte> {
 	public int lose = 0;
 	public int[] LoseMatchup = new int[9];
 	public int[] WinMatchup = new int[9];
-	
+	private Heros hero;
 	public Carte(String string, String heroJoueur, String heroAdverse,
 			boolean win) {
-		// TODO Auto-generated constructor stub
 		this.nom = string;
 		this.nomjoueur = heroJoueur;
 		this.nomadversaire = heroAdverse;
@@ -28,56 +27,12 @@ public class Carte implements Comparable<Carte> {
 			LoseMatchup[i]=0;
 			WinMatchup[i]=0;
 		}
+		
 	}
 	public String getNomJ(){return nomjoueur;}
 	
-	public String convertNomJ(){
-		switch (getNomJ()) {
-        case "Valeera Sanguinar":
-            return "Rogue";
-        case "Uther Lightbringer":
-       	 return "Paladin";
-        case "Malfurion Stormrage":
-       	 return "Druid";
-        case "Rexxar":
-       	 return "Hunt"; 
-        case "Thrall":
-       	 return "Chaman"; 
-        case "Garrosh Hellscream":
-       	 return "Warrior"; 	        	
-        case "Jaina Proudmoore":
-       	 return "Mage";
-        case "Gul'dan":
-       	 return "Warlock";    
-        case "Anduin Wrynn":
-       	 return "Priest"; 
-
-		}
-	return "";
-	}
-	public String convertNomA(){
-		switch (getNomA()) {
-        case "Valeera Sanguinar":
-            return "Rogue";
-        case "Uther Lightbringer":
-       	 return "Paladin";
-        case "Malfurion Stormrage":
-       	 return "Druid";
-        case "Rexxar":
-       	 return "Hunt"; 
-        case "Thrall":
-       	 return "Chaman"; 
-        case "Garrosh Hellscream":
-       	 return "Warrior"; 	        	
-        case "Jaina Proudmoore":
-       	 return "Mage";
-        case "Gul'dan":
-       	 return "Warlock";    
-        case "Anduin Wrynn":
-       	 return "Priest"; 
-
-		}
-	return "";
+	public String convert(String s){
+		return hero.getClasseHero(s);
 	}
 	public String getNomA(){return nomadversaire;}
 	public String getNomC(){return nom;}
@@ -102,7 +57,7 @@ public class Carte implements Comparable<Carte> {
 			
 		   String s ="<tr>";
 		   s+="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+convertNomJ()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+convert(getNomJ())+"</td>"+System.getProperty("line.separator");
 		  // s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+this.getW()+"|"+this.getL()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+String.format("%.2f", getratio()) +"%"+"</td>"+System.getProperty("line.separator");
@@ -118,8 +73,8 @@ public String toString2(int i) {
 			
 		   String s ="<tr>";
 		   s+="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+convertNomJ()+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+convert(getNomJ())+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+convert(getNomA())+"</td>"+System.getProperty("line.separator");
 		  // s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+(this.getWMatchup(i)+this.getLMatchup(i))+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+String.format("%.2f", getratioMatchup(i)) +"%"+"</td>"+System.getProperty("line.separator");
