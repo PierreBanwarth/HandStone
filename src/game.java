@@ -88,5 +88,16 @@ public class game {
 		}
 		else return string;
 	}
+	public CarteScore updateCarteScore(CarteScore score){
+		for(int j = 0; j < this.mainDepart.size();j++){
+			Carte carte = new Carte(this.mainDepart.get(j),this.getHeroJoueur(),this.getHeroAdverse(),this.getWin());
+			score.adbis(carte);
+		}
+		return score;
+	}
+	public Heros updateHeros(Heros Herotab){
+	 Herotab.Majratio(Herotab.getNumHero(this.getHeroJoueur()),Herotab.getNumHero(this.getHeroAdverse()), this.getWin());
+	 return Herotab;
+	}
 }
 

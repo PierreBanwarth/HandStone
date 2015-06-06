@@ -19,9 +19,9 @@ public class Handstone {
 	private static boolean endofgame = false;
 	private static int cartes= 0;
 	static List<game> gamelist = new ArrayList<game>();
-	
+
+	static CarteScore scores = new CarteScore();
 	public static void main (String[] args){
-		CarteScore scores = new CarteScore();
 		for (File file : listOfFiles) {
 			
 		    if (file.isFile()) {
@@ -33,21 +33,6 @@ public class Handstone {
 			    	}
 		    	}
 		    }
-		}
-		game g;
-		for(int i = 0 ; i< gamelist.size();i++){
-			g = gamelist.get(i);
-			for(int j = 0; j < g.mainDepart.size();j++){
-				carte = new Carte(g.mainDepart.get(j),g.getHeroJoueur(),g.getHeroAdverse(),g.getWin());
-				Herotab.Majratio(Herotab.getNumHero(g.getHeroJoueur()),Herotab.getNumHero(g.getHeroAdverse()), g.getWin());
-				scores.adbis(carte);
-			}
-			
-			/*for(int k = 0; k < g.cartes.size();k++){
-				carte = new Carte(g.cartes.get(k),g.getHeroJoueur(),g.getHeroAdverse(),g.getWin());
-				Herotabpioche.majRatio(g.getHeroJoueur() , g.getWin());
-				scores.adbis(carte,scores.carteMatchupPioche);
-			}*/
 		}
 		scores.setHerotab(Herotab);
 		System.out.println(scores);
@@ -108,7 +93,8 @@ public class Handstone {
 				endofmuligan = true;
 		}		
 	}
-	gamelist.add(newgame);
+	scores = newgame.updateCarteScore(scores);
+	Herotab = newgame.updateHeros(Herotab);
 	
 	}finally
 	{
