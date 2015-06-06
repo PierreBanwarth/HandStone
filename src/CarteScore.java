@@ -137,10 +137,10 @@ public class CarteScore {
 			}
 		}
 		
-		
+	public Map<String , Carte> getCarteClasse(){return carteClasse;} 
+	public Map<String , Carte> getCarteMatchup(){return carteMatchup;}
 	public String convertNomJ(String s){
-		
-	return herotab.getClasseHero(s);
+		return herotab.getClasseHero(s);
 	}
 
 	public void setHerotab(Heros h){

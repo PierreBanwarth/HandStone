@@ -55,13 +55,12 @@ public class Carte implements Comparable<Carte> {
 @Override public String toString() {
 	if(getratio()>=0){
 			
-		   String s ="<tr>";
-		   s+="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
+		   String s ="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+convert(getNomJ())+"</td>"+System.getProperty("line.separator");
 		  // s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+this.getW()+"|"+this.getL()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+String.format("%.2f", getratio()) +"%"+"</td>"+System.getProperty("line.separator");
-		   s+= "</tr>";
+		   
 		   return s;
 	}
 	else{
@@ -71,14 +70,12 @@ public class Carte implements Comparable<Carte> {
 public String toString2(int i) {
 	if(getratio()>=0){
 			
-		   String s ="<tr>";
-		   s+="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
+		   String s ="<td align=center>"+getNomC()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+convert(getNomJ())+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+convert(getNomA())+"</td>"+System.getProperty("line.separator");
 		  // s+="<td align=center>"+convertNomA()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+(this.getWMatchup(i)+this.getLMatchup(i))+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+String.format("%.2f", getratioMatchup(i)) +"%"+"</td>"+System.getProperty("line.separator");
-		   s+= "</tr>";
 		   return s;
 	}
 	else{

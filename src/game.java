@@ -3,7 +3,7 @@ import java.util.List;
 
 
 public class game {
-	
+	private String NomGame;
 	String nomjoueur;
 	List<String> cartes = new ArrayList<String>(); 
 	List<String> cartesjetées = new  ArrayList<String>();
@@ -13,7 +13,6 @@ public class game {
 	private String heroJoueur;
 	private  String heroAdverse;
 	private int nbcartesdepart = 3;
-	
 	public game(String name){
 		nomjoueur = name;
 	}
@@ -98,6 +97,12 @@ public class game {
 	public Heros updateHeros(Heros Herotab){
 	 Herotab.Majratio(Herotab.getNumHero(this.getHeroJoueur()),Herotab.getNumHero(this.getHeroAdverse()), this.getWin());
 	 return Herotab;
+	}
+	public String getNomGame() {
+		return NomGame;
+	}
+	public void setNomGame(String nomGame) {
+		NomGame = nomGame;
 	}
 }
 

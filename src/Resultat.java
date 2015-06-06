@@ -1,9 +1,12 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Resultat {
-	private Heros Herotab;
+	private Heros herotab;
 	private float ConfianceIntervalle = 0;
 	private CarteScore carteScore;
 	private List<game> gamelist = new ArrayList<game>();
@@ -28,85 +31,68 @@ public class Resultat {
 	private int nbLoseMatchup;
 	public HTMLgenerator html = new HTMLgenerator();
 	private float deltaratioCarte;
-	public Resultat(){
-		
-	}
+	CarteScore score;
+	
 	public Resultat(Heros Herotab,
-					CarteScore carteScore,
-					List<game> gamelist ){
+					CarteScore carteScore){
 		
-		this.Herotab = Herotab;
-		this.carteScore = carteScore;
-		this.setGamelist(gamelist);
+		this.herotab = Herotab;
+		score  = carteScore;
 	}
 	
-	public void setUpVariables(int i){
-		// les noms des Heros
-		String PlayerHero = Herotab.getClasseName(Herotab.transition(carteScore.getMatchup(i).getNomJ()));
-		String OpponentHero = Herotab.getClasseName(Herotab.transition(carteScore.getMatchup(i).getNomA()));
-		// calcul du Win Rate pour la carte Pour le Hero
-		nbgameCarte = carteScore.getMatchup(i).getW()+carteScore.getMatchup(i).getL();
-		ratioCarte = carteScore.getMatchup(i).getratio();
-		setDeltaratioCarte(ratioCarte - ratioHero);
-		// calcul du Win Rate de la carte Pour le matchup
-		carteMatchupWin =  carteScore.getMatchup(i).getW(); 
-		carteMatchupLose = carteScore.getMatchup(i).getL();
-		setNbcarteMatchup(carteMatchupLose +carteMatchupWin);
-		setRatioCarteMatchup(calculratiopourcent(carteMatchupWin,carteMatchupLose));
-		
-		// calcul du Win Rate pour le Hero
-		nbgameHero= Herotab.getNbgame(Herotab.transition(PlayerHero));
-		ratioHero = Herotab.getRatio(Herotab.transition(PlayerHero));
-		// calcul du Win Rate pour le Matchup
-		nbGameMatchup= Herotab.getNbgameMatchup(Herotab.transition(PlayerHero),Herotab.transition(OpponentHero));
-		nbWinMatchup = Herotab.getWinMatchup(Herotab.transition(PlayerHero),Herotab.transition(OpponentHero));
-		
-		nbLoseMatchup = nbGameMatchup - nbWinMatchup;
-		setRatioMatchup(calculratiopourcent(nbWinMatchup,nbLoseMatchup));
-		
-		// intervalle de confiance
-		deltaratioHeroCarte = ratioHero - ratioCarte;
-		setDeltaratioHeroCarteMatchup(getRatioMatchup()  - getRatioMatchup());
-		setDeltamoin(deltaratioHeroCarte - (float) getIntervalle((float)(ratioCarte/100.0),nbgameCarte) - (float) getIntervalle((float)(ratioHero/100.0),nbgameHero)); 
-		setDeltaplus(deltaratioHeroCarte + (float) getIntervalle((float)(ratioCarte/100.0),nbgameCarte) + (float) getIntervalle((float)(ratioHero/100.0),nbgameHero)); 
-	}
-	public String Tableaumatchup(){
-		return html.TableauMatchup(Herotab);
-	}
-	public String resDebutHtml(){
-		String s = html.enteteHtml();
-		s += html.TableauMatchup(Herotab);
-		for(int classe = 0;classe<9;classe++){
-			s += html.TableauClasse(this,classe);
-		}
-	return s;
-	}
-	public String resClasseHtml(int J){
+	public String Calcule(){
 		String s = null;
-			s += html.TableauClasse(this,J);
-		
-	return s;
-	}
-	public String resClasseCarteMatchupHtml(Resultat res,int i, int j){
-		
-		String s = html.TableauClasseMatchup(res,i,j);
+		Map<String , Carte> carteClasse =   new HashMap<String, Carte>();
+		Map<String , Carte> carteMatchup =  new HashMap<String, Carte>();
+		carteClasse.putAll(score.getCarteClasse());
+		carteMatchup.putAll(score.getCarteMatchup());
+		List<String> cles = new ArrayList<String>(carteClasse.keySet());
+		Collections.sort(cles, new CarteComparator(carteClasse));
+		Carte c;
+		for(String id : cles){
+			c = carteClasse.get(id);
+			System.out.println("caca");
+			// calcul des données par rapport au ratio du héro
+			int numhero = herotab.getNumHero(c.getNomJ());
+			float deltaratio = herotab.getRatio(numhero) - c.getratio();
+			double intervalle  = intervalle(c.getW(),c.getL());
+			if(c.getW()+c.getL()>50){
+				s += "<tr>";	
+				s +=  c;
+				// on ajoute les resultats a la chaine.
+				   s+="<td align=center>"+deltaratio+"</td>"+System.getProperty("line.separator");
+				   s+="<td align=center>"+intervalle+"</td>"+System.getProperty("line.separator");
+				s += "</tr>";
+			}
+			
+		}
+		cles = new ArrayList<String>(carteMatchup.keySet());
+		Collections.sort(cles, new CarteComparator(carteMatchup));
+		for(String id : cles){
+			int i = herotab.getNumHero(carteMatchup.get(id).getNomA());
+			c = carteMatchup.get(id);
+			int numhero = herotab.getNumHero(c.getNomJ());
+			int numheroAdverse = herotab.getNumHero(c.getNomA());
+			float deltaratio = herotab.getRatioMatchup(numhero , numheroAdverse) - c.getratio();
+			double intervalle  = intervalle(c.getW(),c.getL());
+			if(c.getLMatchup(i) + c.getWMatchup(i)>25){
+				s += "<tr>";	
+				s += c.toString2(i);
+				s+="<td align=center>"+deltaratio+"</td>"+System.getProperty("line.separator");
+				s+="<td align=center>"+intervalle+"</td>"+System.getProperty("line.separator");
+				s += "</tr>";
+			}
+		}
 		return s;
+		
 	}
 	
-	public String resToHtml(){
-		String s = html.enteteHtml();
-		s += html.TableauMatchup(Herotab);
-		/*for(int classe = 0;classe<9;classe++){
-			s += html.TableauClasse(this,classe);
-			for(int classeAdverse = 0;classeAdverse<9 ; classeAdverse++){
-				s += html.TableauClasseMatchup(this,classe,classeAdverse);
-			}
-		}*/
-		return s;
-		
-	}
+	
 	public String FinToHtml(){
 		return html.FinFichierHtml();
+	}
+	public double intervalle(int Win, int Lose){
+		return getIntervalle(calculratio(Win,Lose),Win+Lose);
 	}
 	public double getIntervalle(float winrate, int nbgame){
 		return 1.96 * Math.sqrt(winrate * (1-winrate))/Math.sqrt((double)nbgame);
@@ -175,7 +161,7 @@ public class Resultat {
 		this.gamelist = gamelist;
 	}
 	public Heros getHeroTab(){
-		return Herotab;
+		return herotab;
 	}
 	public CarteScore getCarteScore(){
 		return carteScore;
@@ -203,6 +189,27 @@ public class Resultat {
 	}
 	public void setDeltaratioHeroCarteMatchup(float deltaratioHeroCarteMatchup) {
 		this.deltaratioHeroCarteMatchup = deltaratioHeroCarteMatchup;
+	}
+	public String htmldebut(){
+		 String s = "<table cellspacing='0'> <!-- cellspacing='0' is important, must stay -->";
+		 //s += "<CAPTION> <b>"+convertNomJ(herotab.getNomHero(hero))+" (win rate with = "+ herotab.getRatio(hero)+")</b></CAPTION>";
+		 s += "<!-- Table Header -->";
+	     s += "<thead><tr>";
+		 s += "<th align=center> Name of the carte </th>";
+		 s += "<th align=center> Hero played </th>";
+		 s += "<th align=center> Number of game played </th>";
+		 s += "<th align=center> Win rate </th>";
+		 s += "<th align=center> Win rate variation </th>";
+		 s += "<th align=center> Confidence Interval </th>";
+		 s +="</tr></thead><!-- Table Header -->";
+		 s +="<!-- Table Body --><tbody>";
+		 return s;
+	}
+	public String htmlfin(){
+		String s = "</tbody>";
+		s += "</table>";
+		s += "</BODY></HTML>";
+		return s;
 	}
 	
 
