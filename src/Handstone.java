@@ -39,7 +39,7 @@ public class Handstone {
 			g = gamelist.get(i);
 			for(int j = 0; j < g.mainDepart.size();j++){
 				carte = new Carte(g.mainDepart.get(j),g.getHeroJoueur(),g.getHeroAdverse(),g.getWin());
-				Herotab.Majratio(g.getHeroJoueur(), g.getWin());
+				Herotab.Majratio(Herotab.getNumHero(g.getHeroJoueur()),Herotab.getNumHero(g.getHeroAdverse()), g.getWin());
 				scores.adbis(carte);
 			}
 			
@@ -81,6 +81,7 @@ public class Handstone {
 				newgame.setWin(false);
 			}
 		}
+		
 		if(line.contains("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=") && line.contains("to FRIENDLY HAND")){
 			line = line.substring("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=".length() ,line.length()- "id=12 zone=HAND zonePos=0 cardId=EX1_402 player=1] to FRIENDLY HAND".length());
 			newgame.addCartes(normalize(line));

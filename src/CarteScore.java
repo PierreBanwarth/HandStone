@@ -24,10 +24,7 @@ public class CarteScore {
 	
 	@Override public String toString() {
 		float deltaratio;
-		float ratiopioche;
 		float ratioMatchup = 0;
-		int nbgameTot;
-		int nbWinTot;
 		 String s = "<HTML>"+System.getProperty("line.separator");
 		 s += "<BODY>"+System.getProperty("line.separator");
 		for(int hero = 1; hero <10;hero++){
@@ -143,28 +140,8 @@ public class CarteScore {
 		
 		
 	public String convertNomJ(String s){
-		switch (s) {
-        case "Valeera Sanguinar":
-         return "Rogue";
-        case "Uther Lightbringer":
-       	 return "Paladin";
-        case "Malfurion Stormrage":
-       	 return "Druid";
-        case "Rexxar":
-       	 return "Hunt"; 
-        case "Thrall":
-       	 return "Chaman"; 
-        case "Garrosh Hellscream":
-       	 return "Warrior"; 	        	
-        case "Jaina Proudmoore":
-       	 return "Mage";
-        case "Gul'dan":
-       	 return "Warlock";    
-        case "Anduin Wrynn":
-       	 return "Priest"; 
-
-		}
-	return "";
+		
+	return herotab.getClasseHero(s);
 	}
 
 	public void setHerotab(Heros h){

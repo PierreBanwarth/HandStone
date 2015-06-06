@@ -8,6 +8,8 @@ public class Heros {
 	public static List<Hero> HeroTab = new  ArrayList<Hero>();
 	public static int persoWin[] = new int[9];
 	public static int persoLose[] = new int[9];
+	public static int persoWinMatchup[][] = new int[9][9];
+	public static int persoLoseMatchup[][] = new int[9][9];
 	public Heros(){
 		HeroTab.add(0,new Hero("Valeera Sanguinar",0,0));
 		HeroTab.add(1,new Hero("Uther Lightbringer",0,0));
@@ -23,28 +25,15 @@ public class Heros {
 		
 		
 	}
-	public void Majratio(String heroname, boolean win){
-	    String nomPerso;
-	    Hero h;
-	    int Win;
-	    int Lose;
-		for(int i = 0;i<9;i++){
-	    	 h  = HeroTab.get(i);
-			nomPerso = h.getNom();
-	    	 if(nomPerso.compareTo(heroname)==0){
-	    		 if(win){
-	    			 Win = h.getWin() +1;
-	    			 h.setWin(Win);
-	    		 }else{
-	    			 Win = h.getWin() +1;
-	    			 h.setWin(Win);
-	    		 }
-	    			 
-	    	 }
-	         
-	     }
+	public void Majratio(int heroname, int opponentName,boolean win){
+	    if(win){
+	    	persoWin[heroname]++;
+	    	persoWinMatchup[heroname][opponentName]++;
+	    }else{
+	    	persoWin[heroname]++;
+	    	persoWinMatchup[heroname][opponentName]++;
+	    }
 	}
-
 	public float getRatio(String heroname){
 		String nomPerso;
 	    Hero h;
@@ -72,6 +61,15 @@ public class Heros {
 		for(int j = 0;j<9;j++){
 			if(s.compareTo(HeroTab.get(j).getNom())==0){
 				res = j;
+			}
+		}
+		return res;
+    }
+	public String getClasseHero(String s){
+		String res =null;
+		for(int j = 0;j<9;j++){
+			if(s.compareTo(HeroTab.get(j).getNom())==0){
+				res = HeroTab.get(j).getClasse();
 			}
 		}
 		return res;
