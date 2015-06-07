@@ -6,7 +6,7 @@ public class game {
 	
 	String nomjoueur;
 	List<String> cartes = new ArrayList<String>(); 
-	List<String> cartesjetées = new  ArrayList<String>();
+	List<String> cartesjetees = new  ArrayList<String>();
 	List<String> mainDepart = new  ArrayList<String>(); 
 	CarteScore carteScore;
 	private Boolean win = false;
@@ -29,10 +29,10 @@ public class game {
 		cartes.add(s);
 		
 	}
-	public void addCartesJetées(String s)
+	public void addCartesJetees(String s)
 	{
 		normalize(s);
-		cartesjetées.add(s);
+		cartesjetees.add(s);
 		mainDepart.remove(s);
 		nbcartesdepart++;
 	}
@@ -65,15 +65,15 @@ public class game {
 		String s ="\n -------------------------------------------------------------------------\n";
 		s+=" Partie de "+nomjoueur + "\n" + "Hero joueur : "+ heroJoueur + "\nHero de l'adversaire : " + heroAdverse;
 		
-		for(int i = 0 ; i< cartesjetées.size();i++){
-			s = s + "\n cartes jetés" + cartesjetées.get(i);
+		for(int i = 0 ; i< cartesjetees.size();i++){
+			s = s + "\n cartes jetï¿½s" + cartesjetees.get(i);
 		}
-		s = s + "\n Main de départ \n";
+		s = s + "\n Main de dï¿½part \n";
 		for(int i = 0 ; i< mainDepart.size() ;i++){
 			s +=  mainDepart.get(i) + "\n";
 		}
 		if(win)
-			{s +=  "partie gagné \n";}
+			{s +=  "partie gagnï¿½ \n";}
 		else{s +=  "partie perdu \n";}
 		s +="\n -------------------------------------------------------------------------\n";
 		return s;
@@ -98,6 +98,32 @@ public class game {
 	public Heros updateHeros(Heros Herotab){
 	 Herotab.Majratio(Herotab.getNumHero(this.getHeroJoueur()),Herotab.getNumHero(this.getHeroAdverse()), this.getWin());
 	 return Herotab;
+	}
+	
+	public void exportToDB (DBConnexion db) {
+		String query = "";
+		if(db.isConnected()) {
+			for(String card : mainDepart) {
+				query = "";
+				query += "INSERT INTO cardData ";
+				query += "(id, cardID, championPlayed, ChampionOpponent, isInStartingHand, hasWon, date, wasMulligan)";
+				query += " values (";
+				query += "'', '";
+				query += card;
+				query += "', '";
+				query += heroJoueur;
+				query += "', '";
+				query += heroAdverse;
+				query += "', '";
+				query += "true";
+				query += "', '";
+				query += win.toString();
+				query += "', '";
+				query += "')";
+				
+				db.modify(query);
+			}
+		}
 	}
 }
 

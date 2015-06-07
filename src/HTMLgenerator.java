@@ -2,6 +2,7 @@ import java.util.List;
 
 
 public class HTMLgenerator {
+	
 	public String enteteHtml(){
 		String s = "<!DOCTYPE html>";
 		 s += "<html>";
@@ -41,6 +42,7 @@ public class HTMLgenerator {
 		return s;
 		
 	}
+	
 	public String TableauMatchup(Heros herotab){
 		String s = enteteHtml();
 		 s += "<div class=\"CSSTableGenerator\" >";
@@ -64,10 +66,12 @@ public class HTMLgenerator {
 		 
 		s += "</tr>";
 		s += "</table>";
-		s += FinFichierHtml();
+		s += "</div>";   
+		//s += FinFichierHtml();
 		
 		return s;	
 	}
+	
 	public String TableauClasseMatchup(Resultat res, int classeJoueur , int classeAdverse){
 		String s= "<div class=\"CSSTableGenerator\" >";
 		 s += "<table>";
@@ -109,9 +113,11 @@ public class HTMLgenerator {
 			}
 			
 	}
-	     s += "</table>";
+	    s += "</table>";
+		s += "</div>";  
 	     return s;
 	}
+	
 	public String FinFichierHtml(){
 		String s = "</tr>";
 		s += "</table>";
@@ -136,6 +142,7 @@ public class HTMLgenerator {
 		s += "</body>";
 		return s += "</html>";
 	}
+	
 	public String TableauClasse(Resultat res, int hero) {
 		
 		String s= "<div class=\"CSSTableGenerator\" >";
@@ -171,6 +178,8 @@ public class HTMLgenerator {
 				   s+= "</tr>";
 			}
 	}
+	s += "</table>";
+	s += "</div>";
 	return s;	 
 }
 }

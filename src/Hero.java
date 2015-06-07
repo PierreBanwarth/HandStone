@@ -5,7 +5,7 @@ public class Hero {
 	private static int Win;
 	private static int Lose;
 	private static int numHero;
-	 public Hero(String nom, int Win , int Lose){
+	public Hero(String nom, int Win , int Lose){
 		 this.setNom(nom);
 		 this.Win = Win;
 		 this.Lose = Lose;

@@ -25,8 +25,8 @@ public class CarteScore {
 	@Override public String toString() {
 		float deltaratio;
 		float ratioMatchup = 0;
-		 String s = "<HTML>"+System.getProperty("line.separator");
-		 s += "<BODY>"+System.getProperty("line.separator");
+		 String s = "<html>"+System.getProperty("line.separator");
+		 s += "<body>"+System.getProperty("line.separator");
 		for(int hero = 1; hero <10;hero++){
 			 
 			 s += "<table cellspacing='0'> <!-- cellspacing='0' is important, must stay -->";
@@ -95,7 +95,7 @@ public class CarteScore {
 	    	
 		s += "</tbody>";
 		s += "</table>";
-		s += "</BODY></HTML>";
+		s += "</body></html>";
 		return s;
 	}
 	public double getIntervalle(float winrate, int nbgame){

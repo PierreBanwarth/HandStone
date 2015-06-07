@@ -45,17 +45,17 @@ public class Handstone {
 	File file = new File(filepath);
 	File folder = new File(zipPath);
 	zip.unzip(file, folder);
-	// Création du flux bufférisé sur un FileReader, immédiatement suivi par un 
+	// Crï¿½ation du flux buffï¿½risï¿½ sur un FileReader, immï¿½diatement suivi par un 
 	// try/finally, ce qui permet de ne fermer le flux QUE s'il le reader
-	// est correctement instancié (évite les NullPointerException)
+	// est correctement instanciï¿½ (ï¿½vite les NullPointerException)
 	BufferedReader buff = new BufferedReader(new FileReader(finalPath));
 	 
 	try {
 	String line;
 	// Lecture du fichier ligne par ligne. Cette boucle se termine
-	// quand la méthode retourne la valeur null.
+	// quand la mï¿½thode retourne la valeur null.
 	//[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=The Coin id=68 zone=HAND zonePos=5 cardId=GAME_005 player=1] to FRIENDLY HAND
-	//cartes tirés
+	//cartes tirï¿½s
 	game newgame = new game(playerName);
 	while ((line = buff.readLine()) != null) {
 		if(line.contains("[Power]")){
@@ -73,7 +73,7 @@ public class Handstone {
 		}
 		if(line.contains("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=")&& line.contains("to FRIENDLY DECK") ){
 			line = line.substring("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=".length() ,line.length()- "id=27 zone=DECK zonePos=2 cardId=EX1_410 player=1] to FRIENDLY DECK".length());
-			newgame.addCartesJetées(normalize(line));
+			newgame.addCartesJetees(normalize(line));
 			/*if(newgame.cartes.contains(line))
 			{
 				newgame.cartes.remove(line);
