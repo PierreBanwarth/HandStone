@@ -3,7 +3,7 @@ import java.util.List;
 
 
 public class game {
-	
+	private String NomGame;
 	String nomjoueur;
 	List<String> cartes = new ArrayList<String>(); 
 	List<String> cartesjetees = new  ArrayList<String>();
@@ -13,7 +13,6 @@ public class game {
 	private String heroJoueur;
 	private  String heroAdverse;
 	private int nbcartesdepart = 3;
-	
 	public game(String name){
 		nomjoueur = name;
 	}
@@ -124,6 +123,13 @@ public class game {
 				db.modify(query);
 			}
 		}
+	}
+	
+	public String getNomGame() {
+		return NomGame;
+	}
+	public void setNomGame(String nomGame) {
+		NomGame = nomGame;
 	}
 }
 

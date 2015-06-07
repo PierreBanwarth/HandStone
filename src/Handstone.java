@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Handstone {
-	private static final String zipPath = "C:\\Users\\pierre\\Desktop\\TEST";
-	private static final String finalPath = "C:\\Users\\pierre\\Desktop\\TEST\\output_log.txt";
+	private static final String zipPath = "C:\\Users\\pierre\\Desktop\\data HS bordel";
+	private static final String finalPath = "C:\\Users\\pierre\\Desktop\\data HS bordel\\output_log.txt";
 	static File folder = new File(zipPath);
 	static File[] listOfFiles = folder.listFiles();
 	static Carte carte;
@@ -35,7 +35,9 @@ public class Handstone {
 		    }
 		}
 		scores.setHerotab(Herotab);
-		System.out.println(scores);
+		Resultat res = new Resultat(Herotab,scores);
+		
+		System.out.println(res.Calcule());
 	}
 
 	public static void trygame(String filepath, String zipPath){
@@ -93,9 +95,11 @@ public class Handstone {
 				endofmuligan = true;
 		}		
 	}
-	scores = newgame.updateCarteScore(scores);
-	Herotab = newgame.updateHeros(Herotab);
-	
+	if(newgame.getHeroJoueur() == null ||newgame.getHeroAdverse() == null){
+		scores = newgame.updateCarteScore(scores);
+		Herotab = newgame.updateHeros(Herotab);
+		newgame.setNomGame(finalPath);
+	}
 	}finally
 	{
 	// dans tous les cas, on ferme nos flux
