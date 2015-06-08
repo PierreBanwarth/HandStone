@@ -25,7 +25,10 @@ public class DBConnexion {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 	      // Setup the connection with the DB
-			connexion = DriverManager.getConnection( DBUrl, DBUser, DBPassword );
+			String connectionString = DBUrl + "?user=" + DBUser + "&password=" + DBPassword +"&useUnicode=true&characterEncoding=UTF-8";
+			//System.out.println(connectionString);
+			
+			connexion = DriverManager.getConnection(connectionString);
 			return true;
 		} catch (Exception e) {
 			System.out.println("An Error occured while connecting to the Data Base.");

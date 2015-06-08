@@ -105,9 +105,8 @@ public class game {
 			for(String card : mainDepart) {
 				query = "";
 				query += "INSERT INTO cardData ";
-				query += "(id, cardID, championPlayed, ChampionOpponent, isInStartingHand, hasWon, date, wasMulligan)";
-				query += " values (";
-				query += "'', '";
+				query += "(cardID, championPlayed, ChampionOpponent, isInStartingHand, hasWon, sourceFile, wasMulligan, type)";
+				query += " values ('";
 				query += card;
 				query += "', '";
 				query += heroJoueur;
@@ -118,7 +117,11 @@ public class game {
 				query += "', '";
 				query += win.toString();
 				query += "', '";
-				query += "')";
+				query += NomGame;
+				query += "', '";
+				query += "type"; //------------------------TODO
+				query += "', '";
+				query += "');";
 				
 				db.modify(query);
 			}

@@ -19,9 +19,12 @@ public class Handstone {
 	private static boolean endofgame = false;
 	private static int cartes= 0;
 	static List<game> gamelist = new ArrayList<game>();
-
+	public static DBConnexion db;
 	static CarteScore scores = new CarteScore();
 	public static void main (String[] args){
+		db = new DBConnexion(args[0], args[1], "jdbc:mysql://serveur-du-placard.tk:3306/HandStoneDB"); 
+		db.connect();
+		
 		Herotab = new Heros();
 		for (File file : listOfFiles) {
 			
@@ -95,7 +98,9 @@ public class Handstone {
 		}
 		if(line.contains("[Power] GameState.DebugPrintPower() - TAG_CHANGE Entity=GameEntity tag=STEP value=MAIN_START")){
 				endofmuligan = true;
-		}		
+		}	
+		
+		newgame.exportToDB(db);
 	}
 	if(newgame.getHeroJoueur() != null && newgame.getHeroAdverse() != null){
 		scores = newgame.updateCarteScore(scores);
