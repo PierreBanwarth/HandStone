@@ -17,13 +17,12 @@ import org.json.simple.parser.JSONParser;
 public class Translate {
 
 	Map<String , String> carteTranslation = new HashMap<String, String>();
-    @SuppressWarnings("unchecked")
     public  Translate() {
         JSONParser parser = new JSONParser();
+        Iterator iterator;
+        try {	
  
-        try {
- 
-            Object obj = parser.parse(new FileReader("C:\\Users\\tagadatsointsoin\\Desktop\\data HS bordel\\AllSets.json"));
+            Object obj = parser.parse(new FileReader("C:\\Users\\tagadatsointsoin\\Documents\\GitHub\\HandStone\\data\\AllSets.json"));
             List<String> cartes = new ArrayList<String>(); 
             cartes.add("Basic");
             cartes.add("Curse of Naxxramas");
@@ -38,7 +37,6 @@ public class Translate {
             cartes.add("Missions");
             cartes.add("Promotion");
             cartes.add("Classic");
-            Iterator iterator;
             for (int i = 0;i<cartes.size();i++){
             	JSONObject jsonObject = (JSONObject) obj;
                 JSONArray lang = (JSONArray) jsonObject.get(cartes.get(i));

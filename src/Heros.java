@@ -17,6 +17,7 @@ public class Heros {
 		HeroTab[8] = new Hero("Anduin Wrynn",0,0);
 	}
 	public void Majratio(int heroname, int opponentName,boolean win){
+		
 	    if(win){
 	    	persoWin[heroname]++;
 	    	persoWinMatchup[heroname][opponentName]++;
@@ -24,27 +25,24 @@ public class Heros {
 	    	persoLose[heroname]++;
 	    	persoLoseMatchup[heroname][opponentName]++;
 	    }
-	}
-
-	public float getRatioMatchup(int heroname, int opponentName){
-
-	    return ((float)	persoWinMatchup[heroname][opponentName] / ((float)	persoWinMatchup[heroname][opponentName] + (float)persoLoseMatchup[heroname][opponentName]))*100;
 	    
 	}
-	public float getRatioMatchup(String heroname ,String opponentName){
+
+	public double getRatioMatchup(int heroname, int opponentName){
+
+	    return ((double)persoWinMatchup[heroname][opponentName] / ((double)	persoWinMatchup[heroname][opponentName] + (double)persoLoseMatchup[heroname][opponentName]))*100;
+	    
+	}
+	public double getRatioMatchup(String heroname ,String opponentName){
 		 int Player  = getNumHero(heroname);
 		 int Opponent =  getNumHero(opponentName);
 		return getRatioMatchup(Player, Opponent);
 	}
-	public float getRatio(String heroname){
-		
-	    Hero h  =  HeroTab[(getNumHero(heroname))];
-	    return ((float)h.getWin() / ((float)h.getWin() + (float)h.getLose()))*100;
+	public double getRatio(String heroname){
+	   return getRatio(getNumHero(heroname));
 	}
-	public float getRatio(int heronum){
-		
-	    Hero h = HeroTab[(heronum)];
-	    return ((float)h.getWin() / ((float)h.getWin() + (float)h.getLose()))*100;
+	public double getRatio(int heronum){
+	    return ((double)	persoWin[heronum] / ((double)	persoWin[heronum] + (double)persoLose[heronum]))*100;
 	}
 	
 	public String getNomHero(int i){
@@ -71,9 +69,7 @@ public class Heros {
 		for(int i = 0;i<9;i++){
 			if(HeroTab[i].getNom().compareTo(s)==0){
 				return i;
-				
 			}
-		
 		}
 		return 0;
 	}

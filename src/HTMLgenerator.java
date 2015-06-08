@@ -73,25 +73,53 @@ public class HTMLgenerator {
 		s += "</div>";   
 		return s;	
 	}
-	public  void CarteToHtmlClasse(Carte c ,int numH, float deltaratio , double intervalle){
+	public  void CarteToHtmlClasse(Carte c ,int numH, double deltaratio , double intervalle){
 
 		String s ="<tr><td align=center>"+c.getNomC()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+herotab.getClasseHero(c.getNomJ())+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+c.getW()+"|"+c.getL()+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+String.format("%.2f", c.getratio()) +"%"+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+deltaratio+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+String.format("%.2f", c.getratio() + deltaratio) +"%"+"</td>"+System.getProperty("line.separator");
+		   if(deltaratio < 0){
+			   if(deltaratio < -10){
+				   s+="<td align=center><FONT color=\"red\"\\><B>"+String.format("%.2f",deltaratio)+"</B></FONT></td>"+System.getProperty("line.separator");
+			   }else{
+				   s+="<td align=center><FONT color=\"red\"\\>"+String.format("%.2f",deltaratio)+"</FONT></td>"+System.getProperty("line.separator");
+			   }
+		   }else{
+			   if(deltaratio >10){
+			   s+="<td align=center><FONT color=\"green\"\\><B>"+String.format("%.2f",deltaratio)+"</B></FONT></td>"+System.getProperty("line.separator");
+			   }else{
+			   s+="<td align=center><FONT color=\"green\"\\>"+String.format("%.2f",deltaratio)+"</FONT></td>"+System.getProperty("line.separator");
+			   }
+		   }
 		   s+="<td align=center>"+intervalle+"</td></tr>"+System.getProperty("line.separator");
 		   cartesClasse.add(s);
 	}
-	public  void CarteToHtmlMatchup(Carte c,int numH, int numO, int i , float deltaratio , double intervalle){
+	public  void CarteToHtmlMatchup(Carte c,int numH, int numO, int i , double deltaratio , double intervalle){
 
 		String s ="<tr><td align=center>"+c.getNomC()+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+c.getNomJ()+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+c.getNomA()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+herotab.getClasseHero(c.getNomJ())+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+herotab.getClasseHero(c.getNomA())+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+(c.getWMatchup(i)+c.getLMatchup(i))+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+String.format("%.2f", c.getratioMatchup(i)) +"%"+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+deltaratio+"</td>"+System.getProperty("line.separator");
-		   s+="<td align=center>"+intervalle+"</td></tr>"+System.getProperty("line.separator");
+
+		   s+="<td align=center>"+String.format("%.2f", c.getratio() + deltaratio) +"%"+"</td>"+System.getProperty("line.separator");
+		   if(deltaratio < 0){
+			   if(deltaratio < -10){
+				   s+="<td align=center><FONT color=\"red\"\\><B>"+String.format("%.2f",deltaratio)+"</B></FONT></td>"+System.getProperty("line.separator");
+			   }else{
+				   s+="<td align=center><FONT color=\"red\"\\>"+String.format("%.2f",deltaratio)+"</FONT></td>"+System.getProperty("line.separator");
+			   }
+		   }else{
+			   if(deltaratio >10){
+			   s+="<td align=center><FONT color=\"green\"\\><B>"+String.format("%.2f",deltaratio)+"</B></FONT></td>"+System.getProperty("line.separator");
+			   }else{
+			   s+="<td align=center><FONT color=\"green\"\\>"+String.format("%.2f",deltaratio)+"</FONT></td>"+System.getProperty("line.separator");
+			   }
+		   }
+			   
+		   s+="<td align=center>&plusmn;"+String.format("%.2f",intervalle)+"</td></tr>"+System.getProperty("line.separator");
 		   cartesMatchup.add(s);
 	}
 	
@@ -100,7 +128,6 @@ public class HTMLgenerator {
 		s += "</table>";
 		
 
-		s += "</div>";
 		s += "</div>";
 		s += "<!-- *********  Footer  ********** -->";
 
@@ -122,6 +149,7 @@ public class HTMLgenerator {
 	public String toString(){
 		String s = null;
 		s += enteteHtml();
+		s += TableauMatchup(herotab);
 		s += "<table>";
 		
 		for(int i = 0;i<cartesClasse.size();i++){

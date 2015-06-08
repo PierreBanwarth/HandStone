@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,24 +12,24 @@ public class CarteScore {
 	int nbcarteidentique = 0;
 	int nbgameMuligan;
 	int nbgameMatchup;
-	float ratioMuligan;
-	float ratioMatchup;
-	float deltamoin; 
-	float deltaplus; 
-	float ratiopioche;
+	double ratioMuligan;
+	double ratioMatchup;
+	double deltamoin; 
+	double deltaplus; 
+	double ratiopioche;
 	public CarteScore(){
 	}
 	public double intervalle(int Win, int Lose){
 		return getIntervalle(calculratio(Win,Lose),Win+Lose);
 	}
-	public double getIntervalle(float winrate, int nbgame){
+	public double getIntervalle(double winrate, int nbgame){
 		return 1.96 * Math.sqrt(winrate * (1-winrate)/(double)nbgame);
 	}
-	public float calculratiopourcent(int win , int loose){
-		return (float) (calculratio(win,loose) * 100.0) ;
+	public double calculratiopourcent(int win , int loose){
+		return (double) (calculratio(win,loose) * 100.0) ;
 	}
-	public float calculratio(int win , int loose){
-		return (float)(win / ((float)win+(float)loose));
+	public double calculratio(int win , int loose){
+		return (double)(win / ((double)win+(double)loose));
 	}
 
 	public void adbis(Carte carte ) {

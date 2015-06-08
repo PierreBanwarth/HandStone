@@ -7,30 +7,22 @@ import java.util.Map;
 
 public class Resultat {
 	private Heros herotab;
-	private float ConfianceIntervalle = 0;
+	private double ConfianceIntervalle = 0;
 	private CarteScore carteScore;
 	private List<game> gamelist = new ArrayList<game>();
 	Translate translater  = new Translate();
 	private int nbgameCarte;
-	private int nbgameHero;
-	private int nbGameMatchup;
 	private int nbGameCarteMatchup;
-	private int carteMatchupWin;
-	private int carteMatchupLose;
 	private int nbcarteMatchup;
-	private float ratioCarte;
-	private float ratioMatchup;
-	private float deltamoin; 
-	private float deltaplus; 
-	private float ratiopioche;
-	private float deltaratioHeroCarte;
-	private float ratioCarteMatchup;
-	private float ratioHero;
-	private float deltaratioHeroCarteMatchup;
-	private int nbWinMatchup;
-	private int nbLoseMatchup;
+	private double ratioCarte;
+	private double ratioMatchup;
+	private double deltamoin; 
+	private double deltaplus; 
+	private double ratiopioche;
+	private double ratioCarteMatchup;
+	private double deltaratioHeroCarteMatchup;
 	public HTMLgenerator html = new HTMLgenerator();
-	private float deltaratioCarte;
+	private double deltaratioCarte;
 	CarteScore score;
 	HTMLgenerator sortieHTML = new HTMLgenerator();
 	public Resultat(Heros Herotab,
@@ -52,14 +44,16 @@ public class Resultat {
 		List<String> cles = new ArrayList<String>(carteClasse.keySet());
 		Collections.sort(cles, new CarteComparator(carteClasse));
 		Carte c;
-		
+		h.setHerotab(herotab);
 		for(String id : cles){
 			c = carteClasse.get(id);
+			
+			c.setNomC(translater.ToEnglish(c.getNomC()));
 			// calcul des données par rapport au ratio du héro
 			int numhero = herotab.getNumHero(c.getNomJ());
-			float deltaratio = herotab.getRatio(numhero) - c.getratio();
+			double deltaratio = herotab.getRatio(numhero) - c.getratio();
 			double intervalle  = intervalle(c.getW(),c.getL());
-			if(c.getW()+c.getL()>0){
+			if(c.getW()+c.getL()>50){
 				h.CarteToHtmlClasse(c , numhero ,deltaratio ,  intervalle);
 			}
 		}
@@ -70,13 +64,14 @@ public class Resultat {
 		for(String id : cles){
 			int i = herotab.getNumHero(carteMatchup.get(id).getNomA());
 			c = carteMatchup.get(id);
+			
 			c.setNomC(translater.ToEnglish(c.getNomC()));
 			int numhero = herotab.getNumHero(c.getNomJ());
 			int numheroAdverse = herotab.getNumHero(c.getNomA());
-			float deltaratio = herotab.getRatioMatchup(numhero , numheroAdverse) - c.getratio();
+			double deltaratio = herotab.getRatioMatchup(numhero , numheroAdverse) - c.getratio();
 			double intervalle  = intervalle(c.getW(),c.getL());
 			
-			if(c.getLMatchup(i) + c.getWMatchup(i)>0){
+			if(c.getLMatchup(i) + c.getWMatchup(i)>25){
 				h.CarteToHtmlMatchup(c ,numhero , numheroAdverse, i ,deltaratio ,  intervalle);
 			}
 		}
@@ -91,46 +86,46 @@ public class Resultat {
 	public double intervalle(int Win, int Lose){
 		return getIntervalle(calculratio(Win,Lose),Win+Lose);
 	}
-	public double getIntervalle(float winrate, int nbgame){
+	public double getIntervalle(double winrate, int nbgame){
 		return 1.96 * Math.sqrt(winrate * (1-winrate))/Math.sqrt((double)nbgame);
 	}
-	public float calculratiopourcent(int win , int loose){
-		return (float) (calculratio(win,loose) * 100.0) ;
+	public double calculratiopourcent(int win , int loose){
+		return (double) (calculratio(win,loose) * 100.0) ;
 	}
-	public float calculratio(int win , int loose){
-		return (float)(win / ((float)win+(float)loose));
+	public double calculratio(int win , int loose){
+		return (double)(win / ((double)win+(double)loose));
 	}
-	public float getRatioCarte(){
+	public double getRatioCarte(){
 		return ratioCarte;
 	}
-	public float getRatioMatchup() {
+	public double getRatioMatchup() {
 		return ratioMatchup;
 	}
-	public void setRatioMatchup(float ratioMatchup) {
+	public void setRatioMatchup(double ratioMatchup) {
 		this.ratioMatchup = ratioMatchup;
 	}
-	public float getDeltamoin() {
+	public double getDeltamoin() {
 		return deltamoin;
 	}
-	public void setDeltamoin(float deltamoin) {
+	public void setDeltamoin(double deltamoin) {
 		this.deltamoin = deltamoin;
 	}
-	public float getDeltaplus() {
+	public double getDeltaplus() {
 		return deltaplus;
 	}
-	public void setDeltaplus(float deltaplus) {
+	public void setDeltaplus(double deltaplus) {
 		this.deltaplus = deltaplus;
 	}
-	public float getRatiopioche() {
+	public double getRatiopioche() {
 		return ratiopioche;
 	}
-	public void setRatiopioche(float ratiopioche) {
+	public void setRatiopioche(double ratiopioche) {
 		this.ratiopioche = ratiopioche;
 	}
-	public float getRatioCarteMatchup() {
+	public double getRatioCarteMatchup() {
 		return ratioCarteMatchup;
 	}
-	public void setRatioCarteMatchup(float ratioCarteMatchup) {
+	public void setRatioCarteMatchup(double ratioCarteMatchup) {
 		this.ratioCarteMatchup = ratioCarteMatchup;
 	}
 	public int getNbGameCarteMatchup() {
@@ -145,10 +140,10 @@ public class Resultat {
 	public void setnbgameCarte(int nbgameCarte) {
 		this.nbgameCarte = nbgameCarte;
 	}
-	public float getConfianceIntervalle() {
+	public double getConfianceIntervalle() {
 		return ConfianceIntervalle;
 	}
-	public void setConfianceIntervalle(float confianceIntervalle) {
+	public void setConfianceIntervalle(double confianceIntervalle) {
 		ConfianceIntervalle = confianceIntervalle;
 	}
 	public List<game> getGamelist() {
@@ -166,10 +161,10 @@ public class Resultat {
 	public void setCarteScore(CarteScore c){
 		 this.carteScore = c;
 	}
-	public float getDeltaratioCarte() {
+	public double getDeltaratioCarte() {
 		return deltaratioCarte;
 	}
-	public void setDeltaratioCarte(float deltaratioCarte) {
+	public void setDeltaratioCarte(double deltaratioCarte) {
 		this.deltaratioCarte = deltaratioCarte;
 	}
 	public int getNbcarteMatchup() {
@@ -178,13 +173,13 @@ public class Resultat {
 	public void setNbcarteMatchup(int nbcarteMatchup) {
 		this.nbcarteMatchup = nbcarteMatchup;
 	}
-	/*public float getRatioMatchup(int i, int j){
+	/*public double getRatioMatchup(int i, int j){
 		return this.Herotab.getRatio(i, j);
 	}*/
-	public float getDeltaratioHeroCarteMatchup() {
+	public double getDeltaratioHeroCarteMatchup() {
 		return deltaratioHeroCarteMatchup;
 	}
-	public void setDeltaratioHeroCarteMatchup(float deltaratioHeroCarteMatchup) {
+	public void setDeltaratioHeroCarteMatchup(double deltaratioHeroCarteMatchup) {
 		this.deltaratioHeroCarteMatchup = deltaratioHeroCarteMatchup;
 	}
 	public String htmldebut(){

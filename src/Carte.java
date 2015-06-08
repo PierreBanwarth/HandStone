@@ -46,11 +46,11 @@ public class Carte implements Comparable<Carte> {
 	public int getLMatchup(int i){return LoseMatchup[i];}
 	public void setW(int a ){win =  a;}
 	public void setL(int a ){lose = a;}
-	public float getratio(){
-		return ((float)getW() / ((float)getW() + (float)getL()))*100; 
+	public double getratio(){
+		return ((double)getW() / ((double)getW() + (double)getL()))*100; 
 	}
-	public float getratioMatchup(int i){
-		return ((float) getWMatchup(i) / ((float)getWMatchup(i) + (float)getLMatchup(i)))*100; 
+	public double getratioMatchup(int i){
+		return ((double) getWMatchup(i) / ((double)getWMatchup(i) + (double)getLMatchup(i)))*100; 
 	}
 	public void setNomC(String s){
 		this.nom = s;
