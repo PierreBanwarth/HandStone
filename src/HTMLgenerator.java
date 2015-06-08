@@ -93,7 +93,7 @@ public class HTMLgenerator {
 			   s+="<td align=center><FONT color=\"green\"\\>"+String.format("%.2f",deltaratio)+"</FONT></td>"+System.getProperty("line.separator");
 			   }
 		   }
-		   s+="<td align=center>"+intervalle+"</td></tr>"+System.getProperty("line.separator");
+		   s+="<td align=center>&plusmn;"+String.format("%.2f",intervalle)+"</td></tr>"+System.getProperty("line.separator");
 		   cartesClasse.add(s);
 	}
 	public  void CarteToHtmlMatchup(Carte c,int numH, int numO, int i , double deltaratio , double intervalle){
@@ -104,7 +104,7 @@ public class HTMLgenerator {
 		   s+="<td align=center>"+(c.getWMatchup(i)+c.getLMatchup(i))+"</td>"+System.getProperty("line.separator");
 		   s+="<td align=center>"+String.format("%.2f", c.getratioMatchup(i)) +"%"+"</td>"+System.getProperty("line.separator");
 
-		   s+="<td align=center>"+String.format("%.2f", c.getratio() + deltaratio) +"%"+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+String.format("%.2f",deltaratio) +"%"+"</td>"+System.getProperty("line.separator");
 		   if(deltaratio < 0){
 			   if(deltaratio < -10){
 				   s+="<td align=center><FONT color=\"red\"\\><B>"+String.format("%.2f",deltaratio)+"</B></FONT></td>"+System.getProperty("line.separator");

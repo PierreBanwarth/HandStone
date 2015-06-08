@@ -52,7 +52,7 @@ public class Resultat {
 			// calcul des données par rapport au ratio du héro
 			int numhero = herotab.getNumHero(c.getNomJ());
 			double deltaratio = herotab.getRatio(numhero) - c.getratio();
-			double intervalle  = intervalle(c.getW(),c.getL());
+			double intervalle  = intervalle(c.getW(),c.getL()) * 100;
 			if(c.getW()+c.getL()>50){
 				h.CarteToHtmlClasse(c , numhero ,deltaratio ,  intervalle);
 			}
@@ -68,8 +68,8 @@ public class Resultat {
 			c.setNomC(translater.ToEnglish(c.getNomC()));
 			int numhero = herotab.getNumHero(c.getNomJ());
 			int numheroAdverse = herotab.getNumHero(c.getNomA());
-			double deltaratio = herotab.getRatioMatchup(numhero , numheroAdverse) - c.getratio();
-			double intervalle  = intervalle(c.getW(),c.getL());
+			double deltaratio = herotab.getRatioMatchup(numhero , numheroAdverse) - c.getratioMatchup(numheroAdverse);
+			double intervalle  = intervalle(c.getW(),c.getL()) * 100;
 			
 			if(c.getLMatchup(i) + c.getWMatchup(i)>25){
 				h.CarteToHtmlMatchup(c ,numhero , numheroAdverse, i ,deltaratio ,  intervalle);
