@@ -1,8 +1,12 @@
+import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class HTMLgenerator {
-	
+	public static List<String> cartesClasse = new ArrayList<String>();
+	public static List<String> cartesMatchup = new ArrayList<String>();
+	private Heros herotab = new Heros();
 	public String enteteHtml(){
 		String s = "<!DOCTYPE html>";
 		 s += "<html>";
@@ -49,7 +53,7 @@ public class HTMLgenerator {
 		 s += "<table>";
 		 s += "<tr>";
 		 for(int i = 0;i<9;i++){
-		 s += "<th>"+ herotab.getClasseName(i)+"</th>";
+		 s += "<th>"+ herotab.getClasseHero(i)+"</th>";
 		 }
 		 s += "<td> Classe Winrate</td>";
 		 s +="</tr>";
@@ -57,7 +61,7 @@ public class HTMLgenerator {
 		 for(int i = 0; i<9 ; i++){
 			 s += "<tr>";
 			 for(int j = 0; j<9 ; j++){
-				 s += "<td>"+ herotab.getRatio(i,j)+"</td>";
+				 s += "<td>"+ herotab.getRatioMatchup(i,j)+"</td>";
 			 }
 			 s +="<td>"+ herotab.getRatio(i)+"</td>";
 			 s += "</tr>";
@@ -67,55 +71,28 @@ public class HTMLgenerator {
 		s += "</tr>";
 		s += "</table>";
 		s += "</div>";   
-		//s += FinFichierHtml();
-		
 		return s;	
 	}
-	
-	public String TableauClasseMatchup(Resultat res, int classeJoueur , int classeAdverse){
-		String s= "<div class=\"CSSTableGenerator\" >";
-		 s += "<table>";
-		 s += "<tr>";
-		 s += "<td> Card </td>";
-		 s += "<td> player </td>";
-		 s += "<td> opponent </td>";
-		 s += "<td> Number of data</td>";
-		 s += "<td> Win rate </td>";
-		 s += "<td> Win rate variation </td>";
-		 s += "<td> Confidence Interval </td>";
-		 s +="</tr>";
-		 Heros herotab = res.getHeroTab();
-	     CarteScore cartescore = res.getCarteScore();
-	     for(int i =0;i<cartescore.size();i++){
-			 res.setUpVariables(i);
-			if(cartescore.getMatchup(i).getNomJ().compareTo(herotab.transition(classeJoueur))==0 && res.getnbgameCarte() > 10)
-			{
-				   s +="<tr>";
-				   s += "<td> "+cartescore.getMatchup(i).getNomC()+ "</td>";
-				   s += "<td> "+herotab.getClasseName(classeJoueur)+" </td>";
-				   s += "<td> "+herotab.getClasseName(classeAdverse)+" </td>";
-				   float a = res.getRatioCarteMatchup();
-				   float b = res.getRatioMatchup(classeJoueur,classeAdverse);
-				   float c = res.getDeltaratioHeroCarteMatchup();
-					 s += "<td> "+res.getNbcarteMatchup()+" </td>";
-					 s += "<td>"+ res.getRatioCarteMatchup()+ "</td>";
-					 
-					 if(b-a>0){
-						   s+= "<td><font size=\"2\" color=\"green\">"+String.format("%.2f",a - b)+"</font></td>";
-					   }else{
-						   s+= "<td><font size=\"2\" color=\"red\">"+String.format("%.2f", a - b)+"</font></td>"+System.getProperty("line.separator");
-					   }
-					 s += "<td> ["+res.getDeltaplus() + ","+res.getDeltaplus()+"] </td>";
-				   
-				
-				   s+= "</tr>";
-				   
-			}
-			
+	public  void CarteToHtmlClasse(Carte c ,int numH, float deltaratio , double intervalle){
+
+		String s ="<tr><td align=center>"+c.getNomC()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+herotab.getClasseHero(c.getNomJ())+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+c.getW()+"|"+c.getL()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+String.format("%.2f", c.getratio()) +"%"+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+deltaratio+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+intervalle+"</td></tr>"+System.getProperty("line.separator");
+		   cartesClasse.add(s);
 	}
-	    s += "</table>";
-		s += "</div>";  
-	     return s;
+	public  void CarteToHtmlMatchup(Carte c,int numH, int numO, int i , float deltaratio , double intervalle){
+
+		String s ="<tr><td align=center>"+c.getNomC()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+c.getNomJ()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+c.getNomA()+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+(c.getWMatchup(i)+c.getLMatchup(i))+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+String.format("%.2f", c.getratioMatchup(i)) +"%"+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+deltaratio+"</td>"+System.getProperty("line.separator");
+		   s+="<td align=center>"+intervalle+"</td></tr>"+System.getProperty("line.separator");
+		   cartesMatchup.add(s);
 	}
 	
 	public String FinFichierHtml(){
@@ -142,44 +119,38 @@ public class HTMLgenerator {
 		s += "</body>";
 		return s += "</html>";
 	}
-	
-	public String TableauClasse(Resultat res, int hero) {
+	public String toString(){
+		String s = null;
+		s += enteteHtml();
+		s += "<table>";
 		
-		String s= "<div class=\"CSSTableGenerator\" >";
-		 s += "<table>";
-		 s += "<tr>";
-		 s += "<td> Card </td>";
-		 s += "<td> Hero </td>";
-		 s += "<td> Number of games </td>";
-		 s += "<td> Win rate </td>";
-		 s += "<td> Win rate variation </td>";
-		 s += "<td> Confidence Interval </td>";
-		 s +="</tr>";
+		for(int i = 0;i<cartesClasse.size();i++){
+			s+= cartesClasse.get(i);
+		}
+		s += "</table>";
+		s += "</div>";   
+		s += "<table>";
+		s += "<tr>";
+		for(int i = 0;i<cartesMatchup.size();i++){
+			s+= cartesMatchup.get(i);
+		}
+		s += "</tr>";
+		s += "</table>";
+		s += "</div>";   
+		s+=FinFichierHtml();
+		return s;
 		
-		 Heros herotab = res.getHeroTab();
-	     CarteScore cartescore = res.getCarteScore();
-	     List<Carte> classe = cartescore.listSelect(hero);
-		 for(int i =0;i<classe.size();i++){
-			{
-				if(classe.get(i).getL() + classe.get(i).getW() >20)
-				   s +="<tr>";
-				   s += "<td> "+classe.get(i).getNomC()+ "</td>";
-				   s += "<td> "+herotab.getClasseName(hero)+" </td>";
-					 s += "<td> "+res.getnbgameCarte()+" </td>";
-					 s += "<td>"+ res.getRatioCarte()+ "</td>";
-					 if(res.getDeltaratioCarte()>0){
-						   s+= "<td><font size=\"2\" color=\"green\">"+String.format("%.2f", res.getDeltaratioCarte())+"</font></td>";
-					   }else{
-						   s+= "<td><font size=\"2\" color=\"red\">"+String.format("%.2f", res.getDeltaratioCarte())+"</font></td>"+System.getProperty("line.separator");
-					   }
-					 s += "<td> ["+res.getDeltaplus() + ","+res.getDeltaplus()+"] </td>";
-				   
-				
-				   s+= "</tr>";
-			}
+		
+		
+		
 	}
-	s += "</table>";
-	s += "</div>";
-	return s;	 
-}
+
+	public Heros getHerotab() {
+		return herotab;
+	}
+
+	public void setHerotab(Heros herotab) {
+		this.herotab = herotab;
+	}
+	
 }

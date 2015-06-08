@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Handstone {
-	private static final String zipPath = "C:\\Users\\pierre\\Desktop\\data HS bordel";
-	private static final String finalPath = "C:\\Users\\pierre\\Desktop\\data HS bordel\\output_log.txt";
+	private static final String zipPath = "C:\\Users\\tagadatsointsoin\\Desktop\\data HS bordel";
+	private static final String finalPath = "C:\\Users\\tagadatsointsoin\\Desktop\\data HS bordel\\output_log.txt";
 	static File folder = new File(zipPath);
 	static File[] listOfFiles = folder.listFiles();
 	static Carte carte;
@@ -22,6 +22,7 @@ public class Handstone {
 
 	static CarteScore scores = new CarteScore();
 	public static void main (String[] args){
+		Herotab = new Heros();
 		for (File file : listOfFiles) {
 			
 		    if (file.isFile()) {
@@ -70,7 +71,8 @@ public class Handstone {
 		}
 		
 		if(line.contains("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=") && line.contains("to FRIENDLY HAND")){
-			line = line.substring("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=".length() ,line.length()- "id=12 zone=HAND zonePos=0 cardId=EX1_402 player=1] to FRIENDLY HAND".length());
+			line = line.substring(line.lastIndexOf("cardId=")+"cardId=".length(),line.length());
+			line = line.substring(0,line.indexOf(" "));
 			newgame.addCartes(normalize(line));
 		}
 		if(line.contains("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=")&& line.contains("to FRIENDLY DECK") ){
@@ -95,7 +97,7 @@ public class Handstone {
 				endofmuligan = true;
 		}		
 	}
-	if(newgame.getHeroJoueur() == null ||newgame.getHeroAdverse() == null){
+	if(newgame.getHeroJoueur() != null && newgame.getHeroAdverse() != null){
 		scores = newgame.updateCarteScore(scores);
 		Herotab = newgame.updateHeros(Herotab);
 		newgame.setNomGame(finalPath);

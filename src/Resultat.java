@@ -32,7 +32,7 @@ public class Resultat {
 	public HTMLgenerator html = new HTMLgenerator();
 	private float deltaratioCarte;
 	CarteScore score;
-	
+	HTMLgenerator sortieHTML = new HTMLgenerator();
 	public Resultat(Heros Herotab,
 					CarteScore carteScore){
 		
@@ -41,33 +41,32 @@ public class Resultat {
 	}
 	
 	public String Calcule(){
-		String s = null;
+		HTMLgenerator h = new HTMLgenerator();
+		
 		Map<String , Carte> carteClasse =   new HashMap<String, Carte>();
 		Map<String , Carte> carteMatchup =  new HashMap<String, Carte>();
-		carteClasse.putAll(score.getCarteClasse());
-		carteMatchup.putAll(score.getCarteMatchup());
+		
+		carteClasse = score.getCarteClasse();
+		carteMatchup = (score.getCarteMatchup());
+		
 		List<String> cles = new ArrayList<String>(carteClasse.keySet());
 		Collections.sort(cles, new CarteComparator(carteClasse));
 		Carte c;
+		
 		for(String id : cles){
 			c = carteClasse.get(id);
-			System.out.println("caca");
 			// calcul des données par rapport au ratio du héro
 			int numhero = herotab.getNumHero(c.getNomJ());
 			float deltaratio = herotab.getRatio(numhero) - c.getratio();
 			double intervalle  = intervalle(c.getW(),c.getL());
-			if(c.getW()+c.getL()>50){
-				s += "<tr>";	
-				s +=  c;
-				// on ajoute les resultats a la chaine.
-				   s+="<td align=center>"+deltaratio+"</td>"+System.getProperty("line.separator");
-				   s+="<td align=center>"+intervalle+"</td>"+System.getProperty("line.separator");
-				s += "</tr>";
+			if(c.getW()+c.getL()>0){
+				h.CarteToHtmlClasse(c , numhero ,deltaratio ,  intervalle);
 			}
-			
 		}
+		
 		cles = new ArrayList<String>(carteMatchup.keySet());
 		Collections.sort(cles, new CarteComparator(carteMatchup));
+		
 		for(String id : cles){
 			int i = herotab.getNumHero(carteMatchup.get(id).getNomA());
 			c = carteMatchup.get(id);
@@ -75,15 +74,12 @@ public class Resultat {
 			int numheroAdverse = herotab.getNumHero(c.getNomA());
 			float deltaratio = herotab.getRatioMatchup(numhero , numheroAdverse) - c.getratio();
 			double intervalle  = intervalle(c.getW(),c.getL());
-			if(c.getLMatchup(i) + c.getWMatchup(i)>25){
-				s += "<tr>";	
-				s += c.toString2(i);
-				s+="<td align=center>"+deltaratio+"</td>"+System.getProperty("line.separator");
-				s+="<td align=center>"+intervalle+"</td>"+System.getProperty("line.separator");
-				s += "</tr>";
+			
+			if(c.getLMatchup(i) + c.getWMatchup(i)>0){
+				h.CarteToHtmlMatchup(c ,numhero , numheroAdverse, i ,deltaratio ,  intervalle);
 			}
 		}
-		return s;
+		return h.toString();
 		
 	}
 	
