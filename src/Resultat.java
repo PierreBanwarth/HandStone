@@ -10,7 +10,7 @@ public class Resultat {
 	private float ConfianceIntervalle = 0;
 	private CarteScore carteScore;
 	private List<game> gamelist = new ArrayList<game>();
-	
+	Translate translater  = new Translate();
 	private int nbgameCarte;
 	private int nbgameHero;
 	private int nbGameMatchup;
@@ -70,6 +70,7 @@ public class Resultat {
 		for(String id : cles){
 			int i = herotab.getNumHero(carteMatchup.get(id).getNomA());
 			c = carteMatchup.get(id);
+			c.setNomC(translater.ToEnglish(c.getNomC()));
 			int numhero = herotab.getNumHero(c.getNomJ());
 			int numheroAdverse = herotab.getNumHero(c.getNomA());
 			float deltaratio = herotab.getRatioMatchup(numhero , numheroAdverse) - c.getratio();

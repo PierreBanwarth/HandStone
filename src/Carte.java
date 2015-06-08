@@ -52,7 +52,9 @@ public class Carte implements Comparable<Carte> {
 	public float getratioMatchup(int i){
 		return ((float) getWMatchup(i) / ((float)getWMatchup(i) + (float)getLMatchup(i)))*100; 
 	}
-
+	public void setNomC(String s){
+		this.nom = s;
+	}
 
 @Override
 public int compareTo(Carte arg0) {

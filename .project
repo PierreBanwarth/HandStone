@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>data/AllSets.json</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/Desktop/data%20HS%20bordel/AllSets.json</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
