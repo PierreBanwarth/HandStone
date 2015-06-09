@@ -1,3 +1,4 @@
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class game {
 	private String opponentName;
 	private String dateHeure;
 	private String type;
+	private int numgame;
+	private int idGame;
 	public game(String name){
 		nomjoueur = name;
 	}
@@ -106,14 +109,27 @@ public class game {
 		if(b){return 1;}
 		else{return 0;}
 	}
+	public int getLastID(DBConnexion db) throws Exception
+	{
+		String query = "";
+		if(db.isConnected()) {
+				query += " SELECT MAX(gameID) FROM games;";
+				ResultSet res = db.read(query);
+				idGame = res.getInt(1);
+		}
+		query = "";
+		return idGame;
+	}
 	public void exportToDB (DBConnexion db) {
 		String query = "";
 		
+
+		
 		if(db.isConnected()) {
-			
+				/*
 				query = "";
-				query += "INSERT INTO gameData ";
-				query += "(playerName, opponentName, championPlayed, ChampionOpponent, hasWon, sourceFile, type, date)";
+				query += "INSERT INTO games ";
+				query += "(playerName, opponentName, championPlayed, ChampionOpponent, hasWon, type, date)";
 				query += " values ('";
 				query += playerName.replace("\'", "&#039");
 				query += "', '";
@@ -125,45 +141,46 @@ public class game {
 				query += "', '";
 				query += toInt(win);
 				query += "', '";
-				query += NomGame.replace("\'", "&#039");
-				query += "', '";
 				query += type.replace("\'", "&#039");
 				query += "', '";
 				query +=dateHeure.replace("\'", "&#039");
 				query += "');";
-				System.out.println(query.substring(query.lastIndexOf("(")));
 				db.modify(query);
-			
+				try {
+					idGame = getLastID(db);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
 			for(String card : mainDepart) {
+				System.out.println(card+"---------------------------------------------------------------------</br>");
 				query = "";
 				query += "INSERT INTO cards ";
-				query += "(cardID, isInStartingHand, wasKeep, sourceFile)";
+				query += "(gameID, CardName, isInStartingHand, wasKeep)";
 				query += " values ('";
+				query += idGame;
+				query += "', '";
 				query += card.replace("\'", "&#039");
 				query += "', '";
 				query += "1";
 				query += "', '";
 				query += "1";
-				query += "', '";
-				query += NomGame.replace("\'", "&#039");
 				query += "');";
-				System.out.println(query.substring(query.lastIndexOf("(")));
 				db.modify(query);
 			}
 			for(String card : cartesjetees) {
 				query = "";
 				query += "INSERT INTO cards ";
-				query += "(cardID, isInStartingHand, wasKeep, sourceFile)";
+				query += "(gameID, CardName, isInStartingHand, wasKeep)";
 				query += " values ('";
+				query += idGame;
+				query += "', '";
 				query += card.replace("\'", "&#039");
 				query += "', '";
 				query += "1";
 				query += "', '";
 				query += "0";
-				query += "', '";
-				query += NomGame.replace("\'", "&#039");
 				query += "');";
-				System.out.println(query.substring(query.indexOf("(")));
 				db.modify(query);
 			}
 		}
@@ -198,6 +215,12 @@ public class game {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public int getNumgame() {
+		return numgame;
+	}
+	public void setNumgame(int numgame) {
+		this.numgame = numgame;
 	}
 }
 

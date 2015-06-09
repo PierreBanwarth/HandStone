@@ -49,7 +49,8 @@ public class DBConnexion {
 				return false;
 			}
 		} else {
-			System.out.println("Data Base not connected");
+			System.out.println("Data Base not connected "+query);
+			
 			return false;
 		}
 	}

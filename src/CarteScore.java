@@ -32,6 +32,7 @@ public class CarteScore {
 		return (double)(win / ((double)win+(double)loose));
 	}
 
+	
 	public void adbis(Carte carte ) {
 		adCarteMatchup(carte);
 		adCarteClasse(carte);

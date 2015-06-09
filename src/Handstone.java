@@ -21,6 +21,7 @@ public class Handstone {
 	static List<game> gamelist = new ArrayList<game>();
 	public static DBConnexion db;
 	static CarteScore scores = new CarteScore();
+	int numgame = 1;
 	public static void main (String[] args){
 		db = new DBConnexion(args[0], args[1], "jdbc:mysql://serveur-du-placard.tk:3306/HandStoneDB"); 
 		db.connect();
@@ -94,6 +95,15 @@ public class Handstone {
 		if(line.startsWith("[Bob] ---RegisterScreenFriendly---")){
 			newgame.setType("friendly");
 		}
+		if((line.contains("Begin Spectating") || line.contains("Start Spectator")))
+		{
+			newgame.setType("spectator");
+		}
+			
+		if(line.contains("End Spectator"))
+		{
+			newgame.setType("spectator");
+		}
 		if(line.contains("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=") && line.contains("to FRIENDLY HAND")){
 			line = line.substring(line.lastIndexOf("cardId=")+"cardId=".length(),line.length());
 			line = line.substring(0,line.indexOf(" "));
@@ -130,7 +140,9 @@ public class Handstone {
 		newgame.setOpponentName(opponentName);
 		newgame.setDateHeure(DateHeure);
 		newgame.setNomGame(nomGame);
-		newgame.exportToDB(db);
+		if(newgame.getType() != null){
+			newgame.exportToDB(db);
+		}
 	}
 	}finally
 	{
