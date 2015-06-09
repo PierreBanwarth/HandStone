@@ -115,6 +115,11 @@ public class game {
 		if(db.isConnected()) {
 				query += " SELECT MAX(gameID) FROM games;";
 				ResultSet res = db.read(query);
+				if (res.next())
+				{
+				   int idgame = res.getInt("MAX(gameID)");
+				   System.out.println(idgame);
+				}
 				idGame = res.getInt(1);
 		}
 		query = "";
@@ -126,7 +131,7 @@ public class game {
 
 		
 		if(db.isConnected()) {
-				/*
+				
 				query = "";
 				query += "INSERT INTO games ";
 				query += "(playerName, opponentName, championPlayed, ChampionOpponent, hasWon, type, date)";
@@ -146,14 +151,15 @@ public class game {
 				query +=dateHeure.replace("\'", "&#039");
 				query += "');";
 				db.modify(query);
+				System.out.println(query);
 				try {
 					idGame = getLastID(db);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}*/
+				}
 			for(String card : mainDepart) {
-				System.out.println(card+"---------------------------------------------------------------------</br>");
+				
 				query = "";
 				query += "INSERT INTO cards ";
 				query += "(gameID, CardName, isInStartingHand, wasKeep)";

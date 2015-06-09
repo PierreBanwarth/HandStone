@@ -110,8 +110,9 @@ public class Handstone {
 			newgame.addCartes(normalize(line));
 		}
 		if(line.contains("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=")&& line.contains("to FRIENDLY DECK") ){
-			line = line.substring("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=".length() ,line.length()- "id=27 zone=DECK zonePos=2 cardId=EX1_410 player=1] to FRIENDLY DECK".length());
-			newgame.addCartesJetees(normalize(line));
+			line = line.substring(line.lastIndexOf("cardId=")+"cardId=".length(),line.length());
+			line = line.substring(0,line.indexOf(" "));
+			newgame.addCartes(normalize(line));
 			/*if(newgame.cartes.contains(line))
 			{
 				newgame.cartes.remove(line);
