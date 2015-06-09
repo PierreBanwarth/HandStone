@@ -13,6 +13,10 @@ public class game {
 	private String heroJoueur;
 	private  String heroAdverse;
 	private int nbcartesdepart = 3;
+	private String playerName;
+	private String opponentName;
+	private String dateHeure;
+	private String type;
 	public game(String name){
 		nomjoueur = name;
 	}
@@ -98,31 +102,68 @@ public class game {
 	 Herotab.Majratio(Herotab.getNumHero(this.getHeroJoueur()),Herotab.getNumHero(this.getHeroAdverse()), this.getWin());
 	 return Herotab;
 	}
-	
+	public int toInt(boolean b){
+		if(b){return 1;}
+		else{return 0;}
+	}
 	public void exportToDB (DBConnexion db) {
 		String query = "";
+		
 		if(db.isConnected()) {
+			
+				query = "";
+				query += "INSERT INTO gameData ";
+				query += "(playerName, opponentName, championPlayed, ChampionOpponent, hasWon, sourceFile, type, date)";
+				query += " values ('";
+				query += playerName.replace("\'", "&#039");
+				query += "', '";
+				query += opponentName.replace("\'", "&#039");
+				query += "', '";
+				query += heroJoueur.replace("\'", "&#039");
+				query += "', '";
+				query += heroAdverse.replace("\'", "&#039");
+				query += "', '";
+				query += toInt(win);
+				query += "', '";
+				query += NomGame.replace("\'", "&#039");
+				query += "', '";
+				query += type.replace("\'", "&#039");
+				query += "', '";
+				query +=dateHeure.replace("\'", "&#039");
+				query += "');";
+				System.out.println(query.substring(query.lastIndexOf("(")));
+				db.modify(query);
+			
 			for(String card : mainDepart) {
 				query = "";
-				query += "INSERT INTO cardData ";
-				query += "(cardID, championPlayed, ChampionOpponent, isInStartingHand, hasWon, sourceFile, wasMulligan, type)";
+				query += "INSERT INTO cards ";
+				query += "(cardID, isInStartingHand, wasKeep, sourceFile)";
 				query += " values ('";
-				query += card;
+				query += card.replace("\'", "&#039");
 				query += "', '";
-				query += heroJoueur;
+				query += "1";
 				query += "', '";
-				query += heroAdverse;
+				query += "1";
 				query += "', '";
-				query += "true";
-				query += "', '";
-				query += win.toString();
-				query += "', '";
-				query += NomGame;
-				query += "', '";
-				query += "type"; //------------------------TODO
-				query += "', '";
+				query += NomGame.replace("\'", "&#039");
 				query += "');";
-				
+				System.out.println(query.substring(query.lastIndexOf("(")));
+				db.modify(query);
+			}
+			for(String card : cartesjetees) {
+				query = "";
+				query += "INSERT INTO cards ";
+				query += "(cardID, isInStartingHand, wasKeep, sourceFile)";
+				query += " values ('";
+				query += card.replace("\'", "&#039");
+				query += "', '";
+				query += "1";
+				query += "', '";
+				query += "0";
+				query += "', '";
+				query += NomGame.replace("\'", "&#039");
+				query += "');";
+				System.out.println(query.substring(query.indexOf("(")));
 				db.modify(query);
 			}
 		}
@@ -133,6 +174,30 @@ public class game {
 	}
 	public void setNomGame(String nomGame) {
 		NomGame = nomGame;
+	}
+	public String getPlayerName() {
+		return playerName;
+	}
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+	}
+	public String getOpponentName() {
+		return opponentName;
+	}
+	public void setOpponentName(String opponentName) {
+		this.opponentName = opponentName;
+	}
+	public String getDateHeure() {
+		return dateHeure;
+	}
+	public void setDateHeure(String dateHeure) {
+		this.dateHeure = dateHeure;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }
 

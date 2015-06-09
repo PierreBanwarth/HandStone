@@ -50,6 +50,11 @@ public class Handstone {
 	MyZip zip = new MyZip();
 	File file = new File(filepath);
 	File folder = new File(zipPath);
+	
+	String nomGame = filepath.substring( zipPath.length()+1,filepath.length()-".hdtreplay".length()  );
+	String playerName = nomGame.substring(0,nomGame.indexOf("("));
+	String opponentName = nomGame.substring(nomGame.indexOf(" vs ")+4,nomGame.lastIndexOf("("));
+	String DateHeure = nomGame.substring(nomGame.lastIndexOf(") ")+2,nomGame.length());
 	zip.unzip(file, folder);
 	// Cr�ation du flux buff�ris� sur un FileReader, imm�diatement suivi par un 
 	// try/finally, ce qui permet de ne fermer le flux QUE s'il le reader
@@ -72,7 +77,23 @@ public class Handstone {
 				newgame.setWin(false);
 			}
 		}
-		
+		if(line.contains("[Bob] ---RegisterScreenForge---"))
+		{
+			newgame.setType("arena");
+		}
+		if(line.contains("[Bob] ---RegisterScreenPractice---")){
+			newgame.setType("practice");
+		}
+		if(line.contains("[Bob] ---RegisterScreenTourneys---")){
+			newgame.setType("casual");
+		}
+		if(line.startsWith("[Asset]") && line.contains("rank_window"))
+		{
+			newgame.setType("ranked");
+		}
+		if(line.startsWith("[Bob] ---RegisterScreenFriendly---")){
+			newgame.setType("friendly");
+		}
 		if(line.contains("[Zone] ZoneChangeList.ProcessChanges() - TRANSITIONING card [name=") && line.contains("to FRIENDLY HAND")){
 			line = line.substring(line.lastIndexOf("cardId=")+"cardId=".length(),line.length());
 			line = line.substring(0,line.indexOf(" "));
@@ -100,12 +121,16 @@ public class Handstone {
 				endofmuligan = true;
 		}	
 		
-		newgame.exportToDB(db);
+		
 	}
 	if(newgame.getHeroJoueur() != null && newgame.getHeroAdverse() != null){
 		scores = newgame.updateCarteScore(scores);
 		Herotab = newgame.updateHeros(Herotab);
-		newgame.setNomGame(finalPath);
+		newgame.setPlayerName(playerName);
+		newgame.setOpponentName(opponentName);
+		newgame.setDateHeure(DateHeure);
+		newgame.setNomGame(nomGame);
+		newgame.exportToDB(db);
 	}
 	}finally
 	{
