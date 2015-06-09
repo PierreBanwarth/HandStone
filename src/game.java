@@ -20,6 +20,7 @@ public class game {
 	private String type;
 	private int numgame;
 	private int idGame;
+	private int lastID;
 	public game(String name){
 		nomjoueur = name;
 	}
@@ -153,41 +154,44 @@ public class game {
 				db.modify(query);
 				System.out.println(query);
 				try {
+					lastID = idGame;
 					idGame = getLastID(db);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			for(String card : mainDepart) {
-				
-				query = "";
-				query += "INSERT INTO cards ";
-				query += "(gameID, CardName, isInStartingHand, wasKeep)";
-				query += " values ('";
-				query += idGame;
-				query += "', '";
-				query += card.replace("\'", "&#039");
-				query += "', '";
-				query += "1";
-				query += "', '";
-				query += "1";
-				query += "');";
-				db.modify(query);
-			}
-			for(String card : cartesjetees) {
-				query = "";
-				query += "INSERT INTO cards ";
-				query += "(gameID, CardName, isInStartingHand, wasKeep)";
-				query += " values ('";
-				query += idGame;
-				query += "', '";
-				query += card.replace("\'", "&#039");
-				query += "', '";
-				query += "1";
-				query += "', '";
-				query += "0";
-				query += "');";
-				db.modify(query);
+			if(lastID == idGame -1){
+				for(String card : mainDepart) {
+					
+					query = "";
+					query += "INSERT INTO cards ";
+					query += "(gameID, CardName, isInStartingHand, wasKeep)";
+					query += " values ('";
+					query += idGame;
+					query += "', '";
+					query += card.replace("\'", "&#039");
+					query += "', '";
+					query += "1";
+					query += "', '";
+					query += "1";
+					query += "');";
+					db.modify(query);
+				}
+				for(String card : cartesjetees) {
+					query = "";
+					query += "INSERT INTO cards ";
+					query += "(gameID, CardName, isInStartingHand, wasKeep)";
+					query += " values ('";
+					query += idGame;
+					query += "', '";
+					query += card.replace("\'", "&#039");
+					query += "', '";
+					query += "1";
+					query += "', '";
+					query += "0";
+					query += "');";
+					db.modify(query);
+				}
 			}
 		}
 	}
