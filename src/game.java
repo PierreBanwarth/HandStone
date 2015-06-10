@@ -180,7 +180,7 @@ public class game {
 				for(String card : cartesjetees) {
 					query = "";
 					query += "INSERT INTO cards ";
-					query += "(gameID, CardName, isInStartingHand, wasKeep)";
+					query += "(gameID, CardID, isInStartingHand, wasKeep)";
 					query += " values ('";
 					query += idGame;
 					query += "', '";
